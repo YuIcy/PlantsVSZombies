@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/menu">
+        <file>res/bg.png</file>
+        <file>res/menu.wav</file>
+        <file>res/SelectorScreen_Challenges_button.png</file>
+        <file>res/SelectorScreen_StartAdventure_Button1.png</file>
+        <file>res/SelectorScreen_StartAdventure_Highlight.png</file>
+        <file>res/SelectorScreen_Survival_button.png</file>
+        <file>res/SelectorScreen_Vasebreaker_button.png</file>
+        <file>res/SelectorScreen_Help1.png</file>
+        <file>res/SelectorScreen_Help2.png</file>
+        <file>res/SelectorScreen_Options1.png</file>
+        <file>res/SelectorScreen_Options2.png</file>
+        <file>res/SelectorScreen_Quit1.png</file>
+        <file>res/SelectorScreen_Quit2.png</file>
+        <file>res/tap.wav</file>
+        <file>res/tap2.wav</file>
+        <file>res/pvz.ico</file>
+        <file>res/CancelButton.png</file>
+        <file>res/QuitButton.png</file>
+        <file>res/QuitWindow.png</file>
+        <file>res/Help.png</file>
+        <file>res/BackButton.png</file>
+        <file>res/Options.png</file>
+        <file>res/yesButton.png</file>
+        <file>res/Unable.png</file>
+        <file>res/yesButton2.png</file>
+    </qresource>
+</RCC>
