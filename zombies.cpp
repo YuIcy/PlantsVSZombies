@@ -7,6 +7,7 @@ Zombies::Zombies(){
     aww = new QSound(":/zombie/groan.wav");
     aww->setLoops(1);
     aww->play();
+    this->setAttribute(Qt::WA_TransparentForMouseEvents, true);
 }
 
 void Zombies::Zstop()

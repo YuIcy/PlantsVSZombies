@@ -37,7 +37,7 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
                     delete mask;
                     battelbgm->play();
                     /***************************************************************************************************/
-                    //僵尸死亡监视器
+                    //僵尸死亡监视器以及僵尸随机生成器
                             timer = new QTimer;
                             connect(timer,&QTimer::timeout,[=](){
                                 for(int i=0;i<ZombieNumber;++i)
@@ -66,7 +66,7 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
                                 Born(FCzombie[Zcnt%10],FCraw[Zcnt%10]);
                                 ++Zcnt;
                             });
-                            Ctimer->start(4000);
+                            Ctimer->start(8000);//8秒生成一个僵尸
                     /***************************************************************************************************/
                 });
             });
@@ -173,11 +173,10 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
         MyPushButton* menu=new MyPushButton(option,true,":/playscene/res/mainMenu.png");
         connect(menu,&MyPushButton::clicked,[=](){
             /***************************************************************************************************/
-            //返回主菜单,僵尸全死
+            //返回主菜单,timer全disconnect
             for(int i=0;i<ZombieNumber;++i)
             {
                 zombie[i]->timer->disconnect();
-                delete zombie[i];
             }
             ZombieNumber=0;
             timer->disconnect();
@@ -251,7 +250,7 @@ void playscene::Born(int Number,int raw)
     case 4:{zombie[ZombieNumber] = new FootballZombie;zombie[ZombieNumber]->setParent(this);zombie[ZombieNumber]->move(900,raw_h[raw]);zombie[ZombieNumber]->Walk(zombie[ZombieNumber]->WalkPath);break;}
     default:{return;}
     }
-    zombie[ZombieNumber]->resize(400,200);
+    zombie[ZombieNumber]->resize(400,160);
     zombie[ZombieNumber]->Znumber=Number;
     zombie[ZombieNumber]->Change();
     ++ZombieNumber;
