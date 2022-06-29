@@ -9,6 +9,13 @@
 #include<QDebug>
 #include<QPainter>
 #include"seed.h"
+
+/***************************************************************************************************/
+//僵尸头文件
+#include "zombies.h"
+
+/***************************************************************************************************/
+
 class playscene : public QWidget
 {
     Q_OBJECT
@@ -23,6 +30,23 @@ public:
     int isPlanting=-1;
     void paintEvent(QPaintEvent *event);
     void mousePressEvent(QMouseEvent *event);
+
+/***************************************************************************************************/
+//僵尸函数
+    QTimer * timer = nullptr;//监视僵尸是否死亡的函数（可以替换）
+    QTimer * Ctimer = nullptr;//僵尸生成定时器
+    int FCraw[10]={0,3,2,1,2,4,0,3,1,4};//僵尸随机生成行数组
+    int FCzombie[10] = {1,2,1,3,1,1,2,3,1,4};//僵尸随机生成数组
+    int Zcnt=0;
+    Zombies ** zombie = nullptr;//活着的僵尸数组
+    int ZombieNumber = 0;//活着的僵尸的数量
+    int MaxNumber = 20;//僵尸最大数量限制
+    int raw_h[5]={30,150,270,380,500};
+    void Born(int Number, int raw);//僵尸出生函数 参数1 僵尸枚举类型 参数2 出生在第几行
+/***************************************************************************************************/
+
+
+
 signals:
     void gamestart();
     void mainmenu();

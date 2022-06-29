@@ -46,4 +46,45 @@
         <file>res/plant.wav</file>
         <file>res/seedlift.wav</file>
     </qresource>
+    <qresource prefix="/">
+        <file>zombie/bigchomp.wav</file>
+        <file>zombie/BucketZombieAttack.gif</file>
+        <file>zombie/BucketZombieAttack2.gif</file>
+        <file>zombie/BucketZombieAttack3.gif</file>
+        <file>zombie/BucketZombieWalk.gif</file>
+        <file>zombie/BucketZombieWalk2(1).gif</file>
+        <file>zombie/BucketZombieWalk3.gif</file>
+        <file>zombie/Burn.gif</file>
+        <file>zombie/chomp.wav</file>
+        <file>zombie/chomp2.wav</file>
+        <file>zombie/chompsoft.wav</file>
+        <file>zombie/ConeZombieAttack.gif</file>
+        <file>zombie/ConeZombieAttack2.gif</file>
+        <file>zombie/ConeZombieAttack3.gif</file>
+        <file>zombie/ConeZombieWalk.gif</file>
+        <file>zombie/ConeZombieWalk2.gif</file>
+        <file>zombie/ConeZombieWalk3.gif</file>
+        <file>zombie/dancer.wav</file>
+        <file>zombie/FootballZombieAttack.gif</file>
+        <file>zombie/FootballZombieDie.gif</file>
+        <file>zombie/FootballZombieWalk.gif</file>
+        <file>zombie/FootballZombieWalk2.gif</file>
+        <file>zombie/gargantudeath.wav</file>
+        <file>zombie/groan.wav</file>
+        <file>zombie/groan2.wav</file>
+        <file>zombie/groan3.wav</file>
+        <file>zombie/groan4.wav</file>
+        <file>zombie/groan5.wav</file>
+        <file>zombie/groan6.wav</file>
+        <file>zombie/ScreenZombieAttack.gif</file>
+        <file>zombie/ScreenZombieWalk.gif</file>
+        <file>zombie/shieldhit.wav</file>
+        <file>zombie/shieldhit2.wav</file>
+        <file>zombie/splat.wav</file>
+        <file>zombie/ZombieAttack.gif</file>
+        <file>zombie/ZombieDie.gif</file>
+        <file>zombie/ZombieHead.gif</file>
+        <file>zombie/ZombieWalk1.gif</file>
+        <file>zombie/ZombieWalk2.gif</file>
+    </qresource>
 </RCC>
