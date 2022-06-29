@@ -14,19 +14,20 @@ Zombies::Zombies(){
 void Zombies::ZChange()
 {
     if(hp<=hp_ch[1])
-        if(state!=1)
+        if(state != 1)
         {
             state=1;
             Change();
         }
+        else{}
     else
-    {
         if(hp<=hp_ch[2])
             if(state!=2)
             {
                 state=2;
                 Change();
             }
+            else{}
         else
             if(hp<=hp_ch[3])
                 if(state!=3)
@@ -34,7 +35,6 @@ void Zombies::ZChange()
                     state=3;
                     Change();
                 }
-    }
 }
 
 //暂停
@@ -172,7 +172,7 @@ void Zombies::Walk(QString Gif)
     int n = 0;
     if(movie!=nullptr)
     {
-        n=movie->currentFrameNumber();
+        n = movie->currentFrameNumber();
         delete movie;
     }
     movie = new QMovie(Gif);
