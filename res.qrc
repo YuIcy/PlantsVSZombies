@@ -45,6 +45,9 @@
         <file>res/mask.png</file>
         <file>res/plant.wav</file>
         <file>res/seedlift.wav</file>
+        <file>res/Shovel.png</file>
+        <file>res/ShovelBank.png</file>
+        <file>res/shovel.wav</file>
     </qresource>
     <qresource prefix="/">
         <file>zombie/bigchomp.wav</file>

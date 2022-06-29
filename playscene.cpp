@@ -116,6 +116,18 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
         seedBank[i]->show();
     }
 
+    //设置铲子
+    shovel=new Shovel(this);
+    shovel->move(bank->x()+bank->width()+20,0);
+    shovel->show();
+    connect(shovel,&Shovel::clicked,[=](){
+        setCursor(QCursor(shovel->shovel));
+        QSound::play(":/playscene/res/shovel.wav");
+        shovel->setIcon(shovel->picture2);
+        isPlanting=-2;
+
+    });
+
     //设置菜单按钮
     MyPushButton* menu=new MyPushButton(this,true,":/playscene/res/MenuButton.png");
     qDebug()<<size();
@@ -203,31 +215,44 @@ void playscene::paintEvent(QPaintEvent *event)
 }
 void playscene::mousePressEvent(QMouseEvent *event)
 {
-    if(isPlanting>-1)
+    if(isPlanting!=-1)
     {
         if(event->button()==Qt::RightButton)
         {
             setCursor(Qt::ArrowCursor);
-            seedBank[isPlanting]->checksun(sunnum);
+            if(isPlanting>=0)
+                seedBank[isPlanting]->checksun(sunnum);
+            else
+                shovel->setIcon(shovel->picture1);
             isPlanting=-1;
             return;
         }
         else if(QRect(60,100,860,580).contains(event->pos()))
         {
-
-            setCursor(Qt::ArrowCursor);
-            sunnum-=seedBank[isPlanting]->sun;
-            sunlabel->setText(QString::number(sunnum));
-            seedBank[isPlanting]->cdstart();
-
-            for(int i=0;i<5;i++)
+            if(isPlanting>=0)
             {
-                if(!seedBank[i]->incd)
-                    seedBank[i]->checksun(sunnum);
+                setCursor(Qt::ArrowCursor);
+                sunnum-=seedBank[isPlanting]->sun;
+                sunlabel->setText(QString::number(sunnum));
+                seedBank[isPlanting]->cdstart();
+
+                for(int i=0;i<5;i++)
+                {
+                    if(!seedBank[i]->incd)
+                        seedBank[i]->checksun(sunnum);
+                }
+                QSound::play(":/playscene/res/plant.wav");
+                isPlanting=-1;
+                return;
             }
-            QSound::play(":/playscene/res/plant.wav");
-            isPlanting=-1;
-            return;
+            else
+            {
+                setCursor(Qt::ArrowCursor);
+                shovel->setIcon(shovel->picture1);
+                QSound::play(":/playscene/res/plant.wav");
+                isPlanting=-1;
+                return;
+            }
         }
     }
     return QWidget::mousePressEvent(event);

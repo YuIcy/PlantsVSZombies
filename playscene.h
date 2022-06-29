@@ -9,6 +9,7 @@
 #include<QDebug>
 #include<QPainter>
 #include"seed.h"
+#include"shovel.h"
 
 /***************************************************************************************************/
 //僵尸头文件
@@ -28,6 +29,7 @@ public:
     int sunsequence[5]={50,100,200,50,25};
     int cooldownsequence[5]={7500,7500,7500,30000,30000};
     int isPlanting=-1;
+    Shovel* shovel;
     void paintEvent(QPaintEvent *event);
     void mousePressEvent(QMouseEvent *event);
 
