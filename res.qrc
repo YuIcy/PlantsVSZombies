@@ -89,5 +89,11 @@
         <file>zombie/ZombieHead.gif</file>
         <file>zombie/ZombieWalk1.gif</file>
         <file>zombie/ZombieWalk2.gif</file>
+        <file>zombie/awooga.wav</file>
+        <file>zombie/evillaugh.wav</file>
+        <file>zombie/losemusic.wav</file>
+        <file>zombie/winmusic.wav</file>
+        <file>zombie/ZombiesWon.jpg</file>
+        <file>zombie/scream.wav</file>
     </qresource>
 </RCC>

@@ -3,7 +3,7 @@
 #include <QDebug>
 
 Zombies::Zombies(){
-    timer = new QTimer;
+    timer = new QTimer(this);
     aww = new QSound(":/zombie/groan.wav");//僵尸出场 ┗|｀O′|┛ 嗷~~
     aww->setLoops(1);
     aww->play();
@@ -267,7 +267,7 @@ ConeZombie::ConeZombie()
 BucketZombie::BucketZombie()
 {
     hp = 950;
-    WalkSpeed = 200;
+    WalkSpeed = 400;
     EatSpeed = 1000;
     Hurt = 50;
     state = 4;
