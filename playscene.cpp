@@ -162,7 +162,7 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
                     }
                 }
             });
-            connect(Ctimer,&QTimer::timeout,[=](){
+            connect(Ctimer,&QTimer::timeout,[=](){//僵尸随机生成
                 Born(FCzombie[Zcnt%10],FCraw[Zcnt%10]);
                 ++Zcnt;
             });

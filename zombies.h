@@ -37,6 +37,7 @@ public:
     void Change();
     void Zstop();
     void Zstart();
+    void ZChange();
 
 signals:
 

@@ -4,12 +4,40 @@
 
 Zombies::Zombies(){
     timer = new QTimer;
-    aww = new QSound(":/zombie/groan.wav");
+    aww = new QSound(":/zombie/groan.wav");//僵尸出场 ┗|｀O′|┛ 嗷~~
     aww->setLoops(1);
     aww->play();
-    this->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+    this->setAttribute(Qt::WA_TransparentForMouseEvents, true);//不要遮挡下面的控件
 }
 
+//血量低到某一个线时，改变状态
+void Zombies::ZChange()
+{
+    if(hp<=hp_ch[1])
+        if(state!=1)
+        {
+            state=1;
+            Change();
+        }
+    else
+    {
+        if(hp<=hp_ch[2])
+            if(state!=2)
+            {
+                state=2;
+                Change();
+            }
+        else
+            if(hp<=hp_ch[3])
+                if(state!=3)
+                {
+                    state=3;
+                    Change();
+                }
+    }
+}
+
+//暂停
 void Zombies::Zstop()
 {
     movie->stop();
@@ -18,6 +46,7 @@ void Zombies::Zstop()
     timer->disconnect();
 }
 
+//恢复
 void Zombies::Zstart()
 {
     movie->start();
@@ -25,78 +54,19 @@ void Zombies::Zstart()
     {
         connect(timer,&QTimer::timeout,[=](){
             aww->play();
-            if(hp<=hp_ch[1])
-            {
-                if(state!=1)
-                {
-                    state=1;
-                    Change();
-                }
-                state = 1;
-            }
-            else
-            {
-                if(hp<=hp_ch[2])
-                {
-                    if(state!=2)
-                    {
-                        state=2;
-                        Change();
-                    }
-                    state = 2;
-                }
-                else
-                    if(hp<=hp_ch[3])
-                        {
-                            if(state!=3)
-                            {
-                                state=3;
-                                Change();
-                            }
-                            state = 3;
-                        }
-            }
+            ZChange();
         }); //定义计时器，并连接槽函数
     }
     else
     {
         connect(timer,&QTimer::timeout,[=](){
             move(x()-WalkSpeed/100,y());
-            if(hp<=hp_ch[1])
-            {
-                if(state!=1)
-                {
-                    state=1;
-                    Change();
-                }
-                state = 1;
-            }
-            else
-            {
-                if(hp<=hp_ch[2])
-                {
-                    if(state!=2)
-                    {
-                        state=2;
-                        Change();
-                    }
-                    state = 2;
-                }
-                else
-                    if(hp<=hp_ch[3])
-                        {
-                            if(state!=3)
-                            {
-                                state=3;
-                                Change();
-                            }
-                            state = 3;
-                        }
-            }
+            ZChange();
         }); //定义计时器，并连接槽函数
     }
 }
 
+//改变状态后，改变图片
 void Zombies::Change()
 {
     if(Znumber==2)
@@ -173,6 +143,7 @@ void Zombies::Change()
     }
 }
 
+//受击
 void Zombies::GetHurt(int attack, bool burn)
 {
     hp -= attack;
@@ -181,6 +152,7 @@ void Zombies::GetHurt(int attack, bool burn)
         if(burn)
             DiePath=":/zombie/Burn.gif";
     }
+//如果僵尸受击过密，此段代码会造成bug
 //    if(aww!=nullptr)
 //    {
 //        delete aww;
@@ -193,6 +165,7 @@ void Zombies::GetHurt(int attack, bool burn)
     aww->play();
 }
 
+//走路
 void Zombies::Walk(QString Gif)
 {
     IfEat=false;
@@ -208,43 +181,16 @@ void Zombies::Walk(QString Gif)
     movie->jumpToFrame(n);
     movie->start();
     this->show();
+    timer->disconnect();
+    timer->stop();
     connect(timer,&QTimer::timeout,[=](){
         move(x()-WalkSpeed/100,y());
-        if(hp<=hp_ch[1])
-        {
-            if(state!=1)
-            {
-                state=1;
-                Change();
-            }
-            state = 1;
-        }
-        else
-        {
-            if(hp<=hp_ch[2])
-            {
-                if(state!=2)
-                {
-                    state=2;
-                    Change();
-                }
-                state = 2;
-            }
-            else
-                if(hp<=hp_ch[3])
-                    {
-                        if(state!=3)
-                        {
-                            state=3;
-                            Change();
-                        }
-                        state = 3;
-                    }
-        }
+        ZChange();
     }); //定义计时器，并连接槽函数
     timer->start(100);
 }
 
+//吃
 void Zombies::Eat(QString Gif)
 {
     IfEat=true;
@@ -265,43 +211,14 @@ void Zombies::Eat(QString Gif)
     aww = new QSound(":/zombie/chompsoft.wav");
     timer->disconnect();
     timer->stop();
-    connect(timer,&QTimer::timeout,[=](){
+    connect(timer,&QTimer::timeout,[=](){//此处可连接植物受伤
         aww->play();
-        if(hp<=hp_ch[1])
-        {
-            if(state!=1)
-            {
-                state=1;
-                Change();
-            }
-            state = 1;
-        }
-        else
-        {
-            if(hp<=hp_ch[2])
-            {
-                if(state!=2)
-                {
-                    state=2;
-                    Change();
-                }
-                state = 2;
-            }
-            else
-                if(hp<=hp_ch[3])
-                    {
-                        if(state!=3)
-                        {
-                            state=3;
-                            Change();
-                        }
-                        state = 3;
-                    }
-        }
+        ZChange();
     }); //定义计时器，并连接槽函数
     timer->start(EatSpeed);
 }
 
+//僵尸死亡
 void Zombies::Die(QString Gif)
 {
     if(IfDie)
@@ -318,7 +235,6 @@ void Zombies::Die(QString Gif)
     IfDie=true;
     timer->disconnect();
 }
-
 
 
 NormalZombie::NormalZombie()
@@ -370,9 +286,9 @@ FootballZombie::FootballZombie()
     EatSpeed = 1000;
     Hurt = 50;
     state = 1;
-    hp_ch[1]=10000;
-    hp_ch[2]=600;
-    hp_ch[3]=1000;
+    hp_ch[1]=10000;//只有一个状态的图片，所以阻止状态改变
+    hp_ch[2]=10000;
+    hp_ch[3]=10000;
     WalkPath=":/zombie/FootballZombieWalk.gif";
     EatPath=":/zombie/FootballZombieAttack.gif";
     DiePath=":/zombie/FootballZombieDie.gif";
