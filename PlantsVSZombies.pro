@@ -18,14 +18,16 @@ SOURCES += main.cpp\
     mypushbutton.cpp \
     shapedwindow.cpp \
     playscene.cpp \
-    seed.cpp
+    seed.cpp \
+    zombies.cpp
 
 HEADERS  += mainwindow.h \
     mymenu.h \
     mypushbutton.h \
     shapedwindow.h \
     playscene.h \
-    seed.h
+    seed.h \
+    zombies.h
 
 FORMS    += mainwindow.ui
 

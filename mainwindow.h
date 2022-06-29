@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include<QDockWidget>
 #include"playscene.h"
+
+
 namespace Ui {
 class MainWindow;
 }
