@@ -16,12 +16,16 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     mymenu.cpp \
     mypushbutton.cpp \
-    shapedwindow.cpp
+    shapedwindow.cpp \
+    playscene.cpp \
+    seed.cpp
 
 HEADERS  += mainwindow.h \
     mymenu.h \
     mypushbutton.h \
-    shapedwindow.h
+    shapedwindow.h \
+    playscene.h \
+    seed.h
 
 FORMS    += mainwindow.ui
 

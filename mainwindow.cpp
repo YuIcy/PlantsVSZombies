@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowIcon(QIcon(":/menu/res/pvz.ico"));
     setWindowTitle("Plants vs.Zombies");
+    ui->stackedWidget->setCurrentIndex(0);
     //设置退出弹框+按钮
     connect(ui->menu,&MyMenu::readyforquit,[=](){
         ShapedWindow* quitwindow=new ShapedWindow(this,":/menu/res/QuitWindow.png");
@@ -71,6 +72,19 @@ MainWindow::MainWindow(QWidget *parent) :
         });
         yes->move((unable->width()-yes->width())*0.5-5,215);
         unable->show();
+    });
+
+    //设置游戏场景
+    connect(ui->menu,&MyMenu::play,[=](){
+        game=new playscene;
+        ui->stackedWidget->addWidget(game);
+        ui->stackedWidget->setCurrentIndex(1);
+        connect(game,&playscene::mainmenu,[=](){
+                ui->stackedWidget->setCurrentIndex(0);
+                ui->menu->bgm->play();
+                delete ui->stackedWidget->widget(1);
+        });
+        emit game->gamestart();
     });
 
 }

@@ -3,7 +3,7 @@
 MyMenu::MyMenu(QWidget *parent) : QWidget(parent)
 {
     //bgm播放
-    QSound* bgm=new QSound(":/menu/res/menu.wav");
+    bgm=new QSound(":/menu/res/menu.wav");
     bgm->setLoops(-1);
     bgm->play();
 
@@ -11,7 +11,8 @@ MyMenu::MyMenu(QWidget *parent) : QWidget(parent)
     MyPushButton* newgame=new MyPushButton(this,true,":/menu/res/SelectorScreen_StartAdventure_Button1.png",":/menu/res/SelectorScreen_StartAdventure_Highlight.png");
     newgame->move(515,125);
     connect(newgame,&MyPushButton::clicked,[=](){
-
+        bgm->stop();
+        emit play();
     });
     MyPushButton* survival=new MyPushButton(this,true,":/menu/res/SelectorScreen_Survival_button.png");
     survival->move(515,240);

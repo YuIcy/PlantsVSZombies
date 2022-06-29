@@ -26,4 +26,24 @@
         <file>res/Unable.png</file>
         <file>res/yesButton2.png</file>
     </qresource>
+    <qresource prefix="/playscene">
+        <file>res/Background.jpg</file>
+        <file>res/battelbgm.wav</file>
+        <file>res/Card.png</file>
+        <file>res/Shop.png</file>
+        <file>res/Sun.gif</file>
+        <file>res/readysetplant.wav</file>
+        <file>res/StartPlant.png</file>
+        <file>res/StartReady.png</file>
+        <file>res/StartSet.png</file>
+        <file>res/MenuButton.png</file>
+        <file>res/Options.png</file>
+        <file>res/returnButton.png</file>
+        <file>res/mainMenu.png</file>
+        <file>res/pause.wav</file>
+        <file>res/SunFlower.png</file>
+        <file>res/mask.png</file>
+        <file>res/plant.wav</file>
+        <file>res/seedlift.wav</file>
+    </qresource>
 </RCC>

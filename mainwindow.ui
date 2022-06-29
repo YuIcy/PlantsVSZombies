@@ -64,7 +64,6 @@
         </size>
        </property>
       </widget>
-      <widget class="QWidget" name="page_2"/>
      </widget>
     </item>
    </layout>
