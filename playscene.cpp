@@ -265,6 +265,41 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
 
 }
 
+bool playscene::hit(int x, int y){
+    int i=0;
+    while(i<ZombieNumber){
+        if(raw_h[y-1]==zombie[i]->y()){
+            if(abs(x-(zombie[i]->x()+100))<=15){
+                zombie[i]->GetHurt(45);
+                return true;
+            }
+        }
+        i++;
+    }
+    return false;
+}
+
+bool playscene::peadetect(int x, int y){
+    int i=0;
+    while(i<ZombieNumber){
+        if(raw_h[y-1]==zombie[i]->y()&&zombie[i]->x()+100>x)return true;
+        i++;
+    }
+    return false;
+}
+bool playscene::potatodetect(int x, int y){
+    int i=0;
+    while(i<ZombieNumber){
+        if(raw_h[y-1]==zombie[i]->y()){
+            if(abs(x-(zombie[i]->x()+100))<=15){
+                zombie[i]->GetHurt(5000,true);
+                return true;
+            }
+        }
+        i++;
+    }
+    return false;
+}
 
 void playscene::paintEvent(QPaintEvent *event)
 {
@@ -492,6 +527,8 @@ void playscene::born(int planttype)
         QTimer * timer0=new QTimer(this);
         timer0->start(2000);
         connect(timer0,&QTimer::timeout,[=](){
+        if(peadetect(xx,cy))
+        {
         QTimer * timer=new QTimer(this);
         timer->start(33);
         //更改了豌豆的名称并精简了代码
@@ -503,7 +540,7 @@ void playscene::born(int planttype)
         connect(timer,&QTimer::timeout,[=](){
             pealabel->move(pealabel->pos().x()+10,pealabel->pos().y());
             pealabel->show();
-            if(pealabel->pos().x()>1000){
+            if(pealabel->pos().x()>1000||hit(pealabel->pos().x(),cy)){
                 timer->stop();
                 pealabel->clear();
             }
@@ -513,6 +550,7 @@ void playscene::born(int planttype)
             plthp[cx][cy]=0;
             map[cx][cy]=0;
             pic[cx][cy]->clear();
+        }
         }
     });
     }
@@ -621,6 +659,7 @@ void playscene::born(int planttype)
         QTimer * timer0=new QTimer(this);
         timer0->start(2000);
         connect(timer0,&QTimer::timeout,[=](){
+        if(peadetect(xx,cy)){
         QTimer * timer=new QTimer(this);
         timer->start(33);
         QLabel *pealabel1=new QLabel(this);
@@ -631,7 +670,7 @@ void playscene::born(int planttype)
         connect(timer,&QTimer::timeout,[=](){
             pealabel1->move(pealabel1->pos().x()+10,pealabel1->pos().y());
             pealabel1->show();
-            if(pealabel1->pos().x()>1000){
+            if(pealabel1->pos().x()>1000||hit(pealabel1->pos().x(),cy)){
                 timer->stop();
                 pealabel1->clear();
             }
@@ -647,7 +686,7 @@ void playscene::born(int planttype)
             connect(timer,&QTimer::timeout,[=](){
                 pealabel2->move(pealabel2->pos().x()+10,pealabel2->pos().y());
                 pealabel2->show();
-                if(pealabel2->pos().x()>1000){
+                if(pealabel2->pos().x()>1000||hit(pealabel2->pos().x(),cy)){
                     timer->stop();
                     pealabel2->clear();
                 }
@@ -658,6 +697,7 @@ void playscene::born(int planttype)
             plthp[cx][cy]=0;
             map[cx][cy]=0;
             pic[cx][cy]->clear();
+        }
         }
     });
     }
