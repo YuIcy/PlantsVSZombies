@@ -469,6 +469,11 @@ void playscene::born(int planttype)
                 QSound::play(":/playscene/res/points.wav");
                 sunnum+=25;
                 sunlabel->setText(QString::number(sunnum));
+                for(int i=0;i<5;i++)
+                {
+                    if(!seedBank[i]->incd)
+                        seedBank[i]->checksun(sunnum);
+                }
                 sunButton->hide();
             });
 
