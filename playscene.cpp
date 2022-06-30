@@ -153,6 +153,7 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
 
     //设置菜单按钮
     MyPushButton* menu=new MyPushButton(this,true,":/playscene/res/MenuButton.png");
+    qDebug()<<size();
     menu->move(this->width()-menu->width(),0);
     menu->show();
     connect(menu,&MyPushButton::clicked,[=](){
@@ -654,36 +655,11 @@ void playscene::born(int planttype)
 =======
 void playscene::Pwin()
 {
-
-    MyPushButton* trophy=new MyPushButton(this,true,":/playscene/res/trophy.png");
-    trophy->move((width()-trophy->width())*0.5,(height()-trophy->height())*0.5);
-    trophy->show();
-    QPropertyAnimation *tanime=new QPropertyAnimation(trophy,"geometry",this);
-    tanime->setStartValue(QRect((width()-trophy->width())*0.5,(height()-trophy->height())*0.5-50,trophy->width(),trophy->height()));
-    tanime->setEndValue(QRect((width()-trophy->width())*0.5,(height()-trophy->height())*0.5,trophy->width(),trophy->height()));
-    tanime->setEasingCurve(QEasingCurve::InBack);
-    tanime->setDuration(500);
-    tanime->start();
-    battelbgm->stop();
-    connect(trophy,&MyPushButton::clicked,[=](){
-
-        WeCome = new QSound(":/zombie/winmusic.wav",this);
-        WeCome->setLoops(1);
-        WeCome->play();
-        timer->disconnect();
-        Ctimer->disconnect();
-        QTimer::singleShot(1000,[=](){
-                ShapedWindow* win=new ShapedWindow(this,":/playscene/res/WinWindow.png");
-                win->move((this->width()-win->width())*0.5,(this->height()-win->height())*0.5);
-                MyPushButton* yes=new MyPushButton(win,true,":/menu/res/yesButton2.png");
-                connect(yes,&MyPushButton::clicked,[=](){
-                    emit mainmenu();
-                });
-                yes->move((win->width()-yes->width())*0.5-5,215);
-                win->show();
-        });
-    });
-
+    WeCome = new QSound(":/zombie/winmusic.wav",this);
+    WeCome->setLoops(1);
+    WeCome->play();
+    timer->disconnect();
+    Ctimer->disconnect();
 }
 
 void playscene::Zwin()
@@ -693,10 +669,6 @@ void playscene::Zwin()
     WeCome->setLoops(1);
     WeCome->play();
     QTimer::singleShot(3800,[=](){
-        QLabel* loselabel=new QLabel(this);
-        loselabel->setStyleSheet("border-image:url(:/playscene/res/losePic.png);");
-        loselabel->resize(size());
-        loselabel->show();
         WeCome->stop();
         WeCome = new QSound(":/zombie/evillaugh.wav",this);
         WeCome->setLoops(1);
@@ -704,17 +676,6 @@ void playscene::Zwin()
         WeCome = new QSound(":/zombie/scream.wav",this);
         WeCome->setLoops(1);
         WeCome->play();
-        QTimer::singleShot(3800,[=](){
-            ShapedWindow* lose=new ShapedWindow(this,":/playscene/res/loseWindow.png");
-            lose->move((this->width()-lose->width())*0.5,(this->height()-lose->height())*0.5);
-            MyPushButton* yes=new MyPushButton(lose,true,":/menu/res/yesButton2.png");
-            connect(yes,&MyPushButton::clicked,[=](){
-                battelbgm->stop();
-                emit mainmenu();
-            });
-            yes->move((lose->width()-yes->width())*0.5-5,215);
-            lose->show();
-        });
     });
     for(int i=0;i<ZombieNumber;++i)
         delete zombie[i];
