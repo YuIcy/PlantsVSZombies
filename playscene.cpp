@@ -521,7 +521,7 @@ void playscene::born(int planttype)
                 death->stop();
                 plthp[cx][cy]=0;
                 map[cx][cy]=0;
-                pic[cx][cy]->clear();
+                delete pic[cx][cy];
             }
         });
     }
@@ -547,7 +547,7 @@ void playscene::born(int planttype)
             pealabel->show();
             if(pealabel->pos().x()>1000||hit(pealabel->pos().x(),cy)){
                 timer->stop();
-                pealabel->clear();
+                delete pealabel;
             }
       });//实现豌豆射击
         }
@@ -560,7 +560,7 @@ void playscene::born(int planttype)
                 death->stop();
                 plthp[cx][cy]=0;
                 map[cx][cy]=0;
-                pic[cx][cy]->clear();
+                delete pic[cx][cy];
             }
         });
     }
@@ -589,7 +589,7 @@ void playscene::born(int planttype)
         connect(timer,&QTimer::timeout,[=](){
 
             if(plthp[cx][cy]>=300&&plthp[cx][cy]<=700){//实现坚果不同生命值对应的形态转换
-                Wallnut1->close();
+                delete Wallnut1;
                 QLabel *Wallnut2=new QLabel(this);
                 Wallnut2->resize(63,70);
                 Wallnut2->move(xx-5,yy-5);
@@ -607,7 +607,7 @@ void playscene::born(int planttype)
 
                      if(plthp[cx][cy]<300){
                          timer2->stop();
-                         Wallnut2->close();
+                         delete Wallnut2;
                          QLabel *Wallnut3=new QLabel(this);
                          Wallnut3->resize(63,70);
                          Wallnut3->move(xx-5,yy-5);
@@ -624,7 +624,7 @@ void playscene::born(int planttype)
                                   timer3->stop();
                                   plthp[cx][cy]=0;
                                   map[cx][cy]=0;
-                                  Wallnut3->clear();
+                                  delete Wallnut3;
                               }
                           });
 
@@ -646,12 +646,12 @@ void playscene::born(int planttype)
             death->stop();
             plthp[cx][cy]=0;
             map[cx][cy]=0;
-            pic[cx][cy]->clear();
+            delete pic[cx][cy];
         }
         });
         QTimer::singleShot(1000,[=](){//实现土豆地雷生长时间
             if(map[cx][cy]==4){
-            pic[cx][cy]->clear();
+            delete pic[cx][cy];
             QLabel *PotatoMine=new QLabel(this);
             PotatoMine->resize(74,53);
             PotatoMine->move(xx-5,yy+10);
@@ -669,7 +669,7 @@ void playscene::born(int planttype)
                     boom->stop();
                     plthp[cx][cy]=0;
                     map[cx][cy]=0;
-                    PotatoMine->clear();
+                    delete PotatoMine;
                     QLabel *Potatoboom=new QLabel(this);
                     Potatoboom->resize(74,53);
                     Potatoboom->move(xx-5,yy+10);
@@ -679,7 +679,7 @@ void playscene::born(int planttype)
                     movie->start();
                     Potatoboom->show();
                     QTimer::singleShot(1000,[=](){
-                        Potatoboom->clear();
+                        delete Potatoboom;
                     });
                 }
             });
@@ -707,7 +707,7 @@ void playscene::born(int planttype)
             pealabel1->show();
             if(pealabel1->pos().x()>1000||hit(pealabel1->pos().x(),cy)){
                 timer->stop();
-                pealabel1->clear();
+                delete pealabel1;
             }
       });
         QTimer::singleShot(300,[=](){
@@ -723,7 +723,7 @@ void playscene::born(int planttype)
                 pealabel2->show();
                 if(pealabel2->pos().x()>1000||hit(pealabel2->pos().x(),cy)){
                     timer->stop();
-                    pealabel2->clear();
+                    delete pealabel2;
                 }
           });
         });
@@ -737,7 +737,7 @@ void playscene::born(int planttype)
                 death->stop();
                 plthp[cx][cy]=0;
                 map[cx][cy]=0;
-                pic[cx][cy]->clear();
+                delete pic[cx][cy];
             }
         });
     }
