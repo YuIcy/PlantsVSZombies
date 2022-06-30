@@ -90,4 +90,22 @@
         <file>zombie/ZombieWalk1.gif</file>
         <file>zombie/ZombieWalk2.gif</file>
     </qresource>
+    <qresource prefix="/pltimg">
+        <file>plantimages/Pea.png</file>
+        <file>plantimages/Peashooter.gif</file>
+        <file>plantimages/Peashooter.png</file>
+        <file>plantimages/PotatoMine.gif</file>
+        <file>plantimages/PotatoMine.png</file>
+        <file>plantimages/PotatoMine1.gif</file>
+        <file>plantimages/PotatoMineBomb.gif</file>
+        <file>plantimages/Repeater.gif</file>
+        <file>plantimages/Repeater.png</file>
+        <file>plantimages/Sun.gif</file>
+        <file>plantimages/SunFlower.gif</file>
+        <file>plantimages/SunFlower.png</file>
+        <file>plantimages/WallNut.gif</file>
+        <file>plantimages/WallNut.png</file>
+        <file>plantimages/WallNut1.gif</file>
+        <file>plantimages/WallNut2.gif</file>
+    </qresource>
 </RCC>
