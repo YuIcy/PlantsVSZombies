@@ -48,6 +48,10 @@
         <file>res/Shovel.png</file>
         <file>res/ShovelBank.png</file>
         <file>res/shovel.wav</file>
+        <file>res/losePic.png</file>
+        <file>res/loseWindow.png</file>
+        <file>res/trophy.png</file>
+        <file>res/WinWindow.png</file>
     </qresource>
     <qresource prefix="/">
         <file>zombie/bigchomp.wav</file>
