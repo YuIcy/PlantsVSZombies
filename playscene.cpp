@@ -512,8 +512,13 @@ void playscene::born(int planttype)
                 sunButton->hide();
             });
 
+        });
+        QTimer * death=new QTimer(this);
+        death->start(1);
+        connect(death,&QTimer::timeout,[=](){
             if(plthp[cx][cy]<=0){
                 timer->stop();
+                death->stop();
                 plthp[cx][cy]=0;
                 map[cx][cy]=0;
                 pic[cx][cy]->clear();
@@ -545,14 +550,19 @@ void playscene::born(int planttype)
                 pealabel->clear();
             }
       });
-        if(plthp[cx][cy]<=0){
-            timer0->stop();
-            plthp[cx][cy]=0;
-            map[cx][cy]=0;
-            pic[cx][cy]->clear();
-        }
         }
     });
+        QTimer * death=new QTimer(this);
+        death->start(1);
+        connect(death,&QTimer::timeout,[=](){
+            if(plthp[cx][cy]<=0){
+                timer0->stop();
+                death->stop();
+                plthp[cx][cy]=0;
+                map[cx][cy]=0;
+                pic[cx][cy]->clear();
+            }
+        });
     }
     else if(planttype==3)
     {
@@ -629,7 +639,18 @@ void playscene::born(int planttype)
     {
         plthp[clix][cliy]=100;
         int xx=xtrans(),yy=ytrans(),cx=clix,cy=cliy;
+        QTimer * death=new QTimer(this);
+        death->start(1);
+        connect(death,&QTimer::timeout,[=](){
+            if(plthp[cx][cy]<=0){
+            death->stop();
+            plthp[cx][cy]=0;
+            map[cx][cy]=0;
+            pic[cx][cy]->clear();
+        }
+        });
         QTimer::singleShot(1000,[=](){
+            if(map[cx][cy]==4){
             pic[cx][cy]->clear();
             QLabel *PotatoMine=new QLabel(this);
             PotatoMine->resize(74,53);
@@ -639,18 +660,32 @@ void playscene::born(int planttype)
             PotatoMine->setScaledContents(true);
             movie->start();
             PotatoMine->show();
-            plthp[cx][cy]=5000;
-            QTimer * timer2=new QTimer(this);
-            timer2->start(1);
-             connect(timer2,&QTimer::timeout,[=](){
-            if(plthp[cx][cy]<=0){
-                timer2->stop();
-                plthp[cx][cy]=0;
-                map[cx][cy]=0;
-                PotatoMine->clear();
-            }
-             });
+            plthp[cx][cy]=50000;
+            death->stop();
+            QTimer * boom=new QTimer(this);
+            boom->start(1);
+            connect(boom,&QTimer::timeout,[=](){
+                if(potatodetect(xx,cy)){
+                    boom->stop();
+                    plthp[cx][cy]=0;
+                    map[cx][cy]=0;
+                    PotatoMine->clear();
+                    QLabel *Potatoboom=new QLabel(this);
+                    Potatoboom->resize(74,53);
+                    Potatoboom->move(xx-5,yy+10);
+                    QMovie *movie=new QMovie(":/pltimg/plantimages/PotatoMineBomb.gif");
+                    Potatoboom->setMovie(movie);
+                    Potatoboom->setScaledContents(true);
+                    movie->start();
+                    Potatoboom->show();
+                    QTimer::singleShot(1000,[=](){
+                        Potatoboom->clear();
+                    });
+                }
+            });
+        }
         });
+
     }
     else if(planttype==5)
     {
@@ -692,14 +727,19 @@ void playscene::born(int planttype)
                 }
           });
         });
-        if(plthp[cx][cy]<=0){
-            timer0->stop();
-            plthp[cx][cy]=0;
-            map[cx][cy]=0;
-            pic[cx][cy]->clear();
-        }
         }
     });
+        QTimer * death=new QTimer(this);
+        death->start(1);
+        connect(death,&QTimer::timeout,[=](){
+            if(plthp[cx][cy]<=0){
+                timer0->stop();
+                death->stop();
+                plthp[cx][cy]=0;
+                map[cx][cy]=0;
+                pic[cx][cy]->clear();
+            }
+        });
     }
 }
 
