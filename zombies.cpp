@@ -10,6 +10,31 @@ Zombies::Zombies(){
     this->setAttribute(Qt::WA_TransparentForMouseEvents, true);//不要遮挡下面的控件
 }
 
+int Zombies::WMx(int x)
+{
+    int bias=0;
+    if(x<56+bias)
+        return 1;
+    if(x<151+bias)
+        return 2;
+    if(x<243+bias)
+        return 3;
+    if(x<346+bias)
+        return 4;
+    if(x<437+bias)
+        return 5;
+    if(x<540+bias)
+        return 6;
+    if(x<636+bias)
+        return 7;
+    if(x<730+bias)
+        return 8;
+    if(x<815+bias)
+        return 9;
+    else
+        return 10;
+}
+
 //血量低到某一个线时，改变状态
 void Zombies::ZChange()
 {
@@ -168,6 +193,15 @@ void Zombies::GetHurt(int attack, bool burn)
 //走路
 void Zombies::Walk(QString Gif)
 {
+    switch(this->y())
+    {
+    case 50:{My = 1;break;}
+    case 170:{My = 2;break;}
+    case 290:{My = 3;break;}
+    case 400:{My = 4;break;}
+    default:{My = 5;break;}
+    }
+
     IfEat=false;
     int n = 0;
     if(movie!=nullptr)
@@ -185,7 +219,9 @@ void Zombies::Walk(QString Gif)
     timer->stop();
     connect(timer,&QTimer::timeout,[=](){
         move(x()-WalkSpeed/100,y());
+        Mx = WMx(x()-WalkSpeed/100);
         ZChange();
+
     }); //定义计时器，并连接槽函数
     timer->start(100);
 }

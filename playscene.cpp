@@ -62,10 +62,32 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
                                             --ZombieNumber;
                                             --i;
                                         }
-                                        else{}
+                                        else{
+                                        }
                                     }
                                     else
                                     {
+                                        //判断僵尸身前是否有植物
+                                        if(zombie[i]->Mx==10)
+                                            return;
+                                        if(plthp[zombie[i]->Mx][zombie[i]->My]>0)
+                                        {
+                                            for(int k=1;k<6;++k)
+                                            {
+                                                for(int j=1;j<10;++j)
+                                                {
+                                                    qDebug()<<plthp[j][k];
+                                                }
+                                            }
+                                            --plthp[zombie[i]->Mx][zombie[i]->My];
+                                            if(!zombie[i]->IfEat)
+                                                zombie[i]->Eat(zombie[i]->EatPath);
+                                        }
+                                        else
+                                        {
+                                            if(zombie[i]->IfEat)
+                                                zombie[i]->Walk(zombie[i]->WalkPath);
+                                        }
                                         if(zombie[i]->x()<=-100)
                                             Zwin();
                                     }
