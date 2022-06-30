@@ -79,6 +79,7 @@ signals:
     void gamestart();
     void mainmenu();
     void sunchanged(int sun);
+    void menuclicked();
 public slots:
 };
 

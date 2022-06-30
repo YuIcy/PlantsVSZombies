@@ -79,6 +79,26 @@ MainWindow::MainWindow(QWidget *parent) :
         game=new playscene;
         ui->stackedWidget->addWidget(game);
         ui->stackedWidget->setCurrentIndex(1);
+        connect(game,&playscene::menuclicked,[=](){
+            QSound::play(":/playscene/res/pause.wav");
+            ShapedWindow* option=new ShapedWindow(this,":/menu/res/Options.png");
+            option->move((this->width()-option->width())*0.5,(this->height()-option->height())*0.5);
+            //返回按钮
+            MyPushButton* Return=new MyPushButton(option,true,":/playscene/res/returnButton.png");
+            connect(Return,&MyPushButton::clicked,[=](){
+                delete option;
+            });
+            Return->move((option->width()-Return->width())*0.5,540);
+            //主菜单按钮
+            MyPushButton* menu=new MyPushButton(option,true,":/playscene/res/mainMenu.png");
+            connect(menu,&MyPushButton::clicked,[=](){
+                game->battelbgm->stop();
+                delete option;
+                emit game->mainmenu();
+            });
+            menu->move((option->width()-menu->width())*0.5,450);
+            option->show();
+        });
         connect(game,&playscene::mainmenu,[=](){
                 ui->stackedWidget->setCurrentIndex(0);
                 ui->menu->bgm->play();

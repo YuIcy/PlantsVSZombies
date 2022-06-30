@@ -174,106 +174,7 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
     menu->move(this->width()-menu->width(),0);
     menu->show();
     connect(menu,&MyPushButton::clicked,[=](){
-        /***************************************************************************************************/
-        //僵尸暂停
-        for(int i=0;i<ZombieNumber;++i)
-            zombie[i]->Zstop();
-        timer->disconnect();
-        Ctimer->disconnect();
-        /***************************************************************************************************/
-
-
-        QSound::play(":/playscene/res/pause.wav");
-        ShapedWindow* option=new ShapedWindow(this,":/menu/res/Options.png");
-        option->move((this->width()-option->width())*0.5,(this->height()-option->height())*0.5);
-        //返回按钮
-        MyPushButton* Return=new MyPushButton(option,true,":/playscene/res/returnButton.png");
-        connect(Return,&MyPushButton::clicked,[=](){
-            delete option;
-            /***************************************************************************************************/
-            //僵尸恢复
-            for(int i=0;i<ZombieNumber;++i)
-                zombie[i]->Zstart();
-            connect(timer,&QTimer::timeout,[=](){
-                for(int i=0;i<ZombieNumber;++i)
-                {
-                    if(zombie[i]->hp<=0)
-                    {
-                        zombie[i]->Die(zombie[i]->DiePath);
-                        if(zombie[i]->movie->frameCount()==zombie[i]->movie->currentFrameNumber()+1)
-                        {
-                            zombie[i]->timer->disconnect();
-                            delete zombie[i];
-                            int n=i;
-                            ++n;
-                            for(;n<ZombieNumber;++n)
-                                zombie[n-1]=zombie[n];
-                            --ZombieNumber;
-                            --i;
-                        }
-                        else{}
-                    }
-                    else
-                    {
-                        //判断僵尸身前是否有植物
-                        if(zombie[i]->Mx==10)
-                            return;
-                        if(plthp[zombie[i]->Mx][zombie[i]->My]>0)
-                        {
-                            for(int k=1;k<6;++k)
-                            {
-                            }
-                            --plthp[zombie[i]->Mx][zombie[i]->My];
-                            if(!zombie[i]->IfEat)
-                                zombie[i]->Eat(zombie[i]->EatPath);
-                        }
-                        else
-                        {
-                            if(zombie[i]->IfEat)
-                                zombie[i]->Walk(zombie[i]->WalkPath);
-                        }
-                        if(zombie[i]->x()<=-100)
-                            Zwin();
-                    }
-                }
-            });
-            connect(Ctimer,&QTimer::timeout,[=](){//僵尸随机生成
-                if(Zcnt == 50)
-                {
-                    if(ZombieNumber == 0)
-                    {
-                        Pwin();
-                    }
-                    else{}
-                }
-                else
-                {
-                    Born(FCzombie[Zcnt%10],FCraw[Zcnt%10]);
-                    ++Zcnt;
-                }
-            });
-            /***************************************************************************************************/
-        });
-        Return->move((option->width()-Return->width())*0.5,540);
-        //主菜单按钮
-        MyPushButton* menu=new MyPushButton(option,true,":/playscene/res/mainMenu.png");
-        connect(menu,&MyPushButton::clicked,[=](){
-            /***************************************************************************************************/
-            //返回主菜单,timer全disconnect
-            for(int i=0;i<ZombieNumber;++i)
-            {
-                zombie[i]->timer->disconnect();
-            }
-            ZombieNumber=0;
-            timer->disconnect();
-            Ctimer->disconnect();
-            /***************************************************************************************************/
-            battelbgm->stop();
-            emit mainmenu();
-        });
-        menu->move((option->width()-menu->width())*0.5,450);
-        option->show();
-
+        emit menuclicked();
     });
 
  //植物部分
@@ -387,6 +288,15 @@ void playscene::mousePressEvent(QMouseEvent *event)
                 setCursor(Qt::ArrowCursor);
                 shovel->setIcon(shovel->picture1);
                 QSound::play(":/playscene/res/plant.wav");
+                int i=0,j=0;
+                while(event->x()>=xlimit[i])
+                    i++;
+                while(event->y()>=ylimit[j])
+                    j++;
+                if(map[i][j])
+                {
+                    plthp[i][j]=0;
+                }
                 isPlanting=-1;
                 return;
             }
@@ -550,7 +460,7 @@ void playscene::born(int planttype)
 
         });
         QTimer * death=new QTimer(this);
-        death->start(1);
+        death->start(33);
         connect(death,&QTimer::timeout,[=](){
             if(plthp[cx][cy]<=0){
                 timer->stop();
@@ -589,7 +499,7 @@ void playscene::born(int planttype)
         }
     });
         QTimer * death=new QTimer(this);//判定植物死亡
-        death->start(1);
+        death->start(33);
         connect(death,&QTimer::timeout,[=](){
             if(plthp[cx][cy]<=0){
                 timer0->stop();
@@ -620,7 +530,7 @@ void playscene::born(int planttype)
         int cx=clix,cy=cliy,xx=xtrans(),yy=ytrans();
 
         QTimer * timer=new QTimer(this);
-        timer->start(1);
+        timer->start(33);
 
         connect(timer,&QTimer::timeout,[=](){
 
@@ -638,7 +548,7 @@ void playscene::born(int planttype)
                 timer->stop();
 
                 QTimer * timer2=new QTimer(this);
-                timer2->start(1);
+                timer2->start(33);
                  connect(timer2,&QTimer::timeout,[=](){
 
                      if(plthp[cx][cy]<300){
@@ -654,7 +564,7 @@ void playscene::born(int planttype)
                          Wallnut3->show();
 
                          QTimer * timer3=new QTimer(this);
-                         timer3->start(1);
+                         timer3->start(33);
                           connect(timer3,&QTimer::timeout,[=](){
                               if(plthp[cx][cy]<=0){
                                   timer3->stop();
@@ -676,7 +586,7 @@ void playscene::born(int planttype)
         plthp[clix][cliy]=100;
         int xx=xtrans(),yy=ytrans(),cx=clix,cy=cliy;
         QTimer * death=new QTimer(this);
-        death->start(1);
+        death->start(33);
         connect(death,&QTimer::timeout,[=](){
             if(plthp[cx][cy]<=0){
             death->stop();
@@ -699,7 +609,7 @@ void playscene::born(int planttype)
             plthp[cx][cy]=50000;
             death->stop();
             QTimer * boom=new QTimer(this);//判断僵尸到来并自爆
-            boom->start(1);
+            boom->start(33);
             connect(boom,&QTimer::timeout,[=](){
                 if(potatodetect(xx,cy)){
                     boom->stop();
@@ -766,7 +676,7 @@ void playscene::born(int planttype)
         }
     });
         QTimer * death=new QTimer(this);//死亡判断
-        death->start(1);
+        death->start(33);
         connect(death,&QTimer::timeout,[=](){
             if(plthp[cx][cy]<=0){
                 timer0->stop();
@@ -844,8 +754,7 @@ void playscene::Zwin()
             lose->show();
         });
     });
-//    for(int i=0;i<ZombieNumber;++i)
-//        delete zombie[i];
+
     timer->disconnect();
     Ctimer->disconnect();
 }
