@@ -228,7 +228,7 @@ bool playscene::potatodetect(int x, int y){
     int i=0;
     while(i<ZombieNumber){
         if(raw_h[y-1]==zombie[i]->y()){
-            if(abs(x-(zombie[i]->x()+50))<=15){
+            if(abs(x-(zombie[i]->x()+200))<=200){
                 zombie[i]->GetHurt(5000,true);
                 return true;
             }
