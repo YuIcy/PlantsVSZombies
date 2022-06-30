@@ -387,7 +387,7 @@ void playscene::Born(int Number,int raw)
 //以下为植物部分
 
 int playscene::xtrans()
-{
+{//将行列数转换成x/y坐标
     int px;
     switch(clix)
     {
@@ -405,7 +405,7 @@ int playscene::xtrans()
 }
 
 int playscene::ytrans()
-{
+{//将行列数转换成x/y坐标
     int py;
     switch(cliy)
     {
@@ -549,10 +549,10 @@ void playscene::born(int planttype)
                 timer->stop();
                 pealabel->clear();
             }
-      });
+      });//实现豌豆射击
         }
     });
-        QTimer * death=new QTimer(this);
+        QTimer * death=new QTimer(this);//判定植物死亡
         death->start(1);
         connect(death,&QTimer::timeout,[=](){
             if(plthp[cx][cy]<=0){
@@ -588,7 +588,7 @@ void playscene::born(int planttype)
 
         connect(timer,&QTimer::timeout,[=](){
 
-            if(plthp[cx][cy]>=300&&plthp[cx][cy]<=700){
+            if(plthp[cx][cy]>=300&&plthp[cx][cy]<=700){//实现坚果不同生命值对应的形态转换
                 Wallnut1->close();
                 QLabel *Wallnut2=new QLabel(this);
                 Wallnut2->resize(63,70);
@@ -649,7 +649,7 @@ void playscene::born(int planttype)
             pic[cx][cy]->clear();
         }
         });
-        QTimer::singleShot(1000,[=](){
+        QTimer::singleShot(1000,[=](){//实现土豆地雷生长时间
             if(map[cx][cy]==4){
             pic[cx][cy]->clear();
             QLabel *PotatoMine=new QLabel(this);
@@ -662,7 +662,7 @@ void playscene::born(int planttype)
             PotatoMine->show();
             plthp[cx][cy]=50000;
             death->stop();
-            QTimer * boom=new QTimer(this);
+            QTimer * boom=new QTimer(this);//判断僵尸到来并自爆
             boom->start(1);
             connect(boom,&QTimer::timeout,[=](){
                 if(potatodetect(xx,cy)){
@@ -693,8 +693,8 @@ void playscene::born(int planttype)
         int xx=xtrans(),yy=ytrans(),cx=clix,cy=cliy;
         QTimer * timer0=new QTimer(this);
         timer0->start(2000);
-        connect(timer0,&QTimer::timeout,[=](){
-        if(peadetect(xx,cy)){
+        connect(timer0,&QTimer::timeout,[=](){//通过定时器嵌套实现双发射手
+        if(peadetect(xx,cy)){//判断本行前方有僵尸
         QTimer * timer=new QTimer(this);
         timer->start(33);
         QLabel *pealabel1=new QLabel(this);
@@ -729,7 +729,7 @@ void playscene::born(int planttype)
         });
         }
     });
-        QTimer * death=new QTimer(this);
+        QTimer * death=new QTimer(this);//死亡判断
         death->start(1);
         connect(death,&QTimer::timeout,[=](){
             if(plthp[cx][cy]<=0){
