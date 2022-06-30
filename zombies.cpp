@@ -4,7 +4,7 @@
 
 Zombies::Zombies(){
     timer = new QTimer(this);
-    aww = new QSound(":/zombie/groan.wav");//僵尸出场 ┗|｀O′|┛ 嗷~~
+    aww = new QSound(":/zombie/groan.wav",this);//僵尸出场 ┗|｀O′|┛ 嗷~~
     aww->setLoops(1);
     aww->play();
     this->setAttribute(Qt::WA_TransparentForMouseEvents, true);//不要遮挡下面的控件
@@ -12,7 +12,7 @@ Zombies::Zombies(){
 
 int Zombies::WMx(int x)
 {
-    int bias=0;
+    int bias=-20;
     if(x<56+bias)
         return 1;
     if(x<151+bias)
@@ -148,7 +148,7 @@ void Zombies::Change()
     {
         int n=movie->currentFrameNumber();
         delete movie;
-        movie=new QMovie(EatPath);
+        movie=new QMovie(EatPath,QByteArray(),this);
         movie->setSpeed(EatSpeed/10);
         this->setMovie(movie);
         movie->jumpToFrame(n);
@@ -159,7 +159,7 @@ void Zombies::Change()
     {
         int n=movie->currentFrameNumber();
         delete movie;
-        movie=new QMovie(WalkPath);
+        movie=new QMovie(WalkPath,QByteArray(),this);
         movie->setSpeed(WalkSpeed);
         this->setMovie(movie);
         movie->jumpToFrame(n);
@@ -183,9 +183,9 @@ void Zombies::GetHurt(int attack, bool burn)
 //        delete aww;
 //    }
     if(Znumber==1||Znumber==2)
-        aww = new QSound(":/zombie/splat.wav");
+        aww = new QSound(":/zombie/splat.wav",this);
     else
-        aww = new QSound(":/zombie/shieldhit.wav");
+        aww = new QSound(":/zombie/shieldhit.wav",this);
     aww->setLoops(1);
     aww->play();
 }
@@ -209,7 +209,7 @@ void Zombies::Walk(QString Gif)
         n = movie->currentFrameNumber();
         delete movie;
     }
-    movie = new QMovie(Gif);
+    movie = new QMovie(Gif,QByteArray(),this);
     movie->setSpeed(WalkSpeed);
     this->setMovie(movie);
     movie->jumpToFrame(n);
@@ -236,7 +236,7 @@ void Zombies::Eat(QString Gif)
         n=movie->currentFrameNumber();
         delete movie;
     }
-    movie = new QMovie(Gif);
+    movie = new QMovie(Gif,QByteArray(),this);
     movie->setSpeed(EatSpeed/10);
     this->setMovie(movie);
     movie->jumpToFrame(n);
@@ -244,7 +244,7 @@ void Zombies::Eat(QString Gif)
     this->show();
     if(aww!=nullptr)
         delete aww;
-    aww = new QSound(":/zombie/chompsoft.wav");
+    aww = new QSound(":/zombie/chompsoft.wav",this);
     timer->disconnect();
     timer->stop();
     connect(timer,&QTimer::timeout,[=](){//此处可连接植物受伤
@@ -263,7 +263,7 @@ void Zombies::Die(QString Gif)
     {
         delete movie;
     }
-    movie = new QMovie(Gif);
+    movie = new QMovie(Gif,QByteArray(),this);
     movie->setSpeed(100);
     this->setMovie(movie);
     movie->start();
