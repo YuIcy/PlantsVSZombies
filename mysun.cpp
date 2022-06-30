@@ -9,7 +9,9 @@ MySun::MySun(QWidget *parent) : QLabel(parent)
     setMovie(movie);
     setScaledContents(true);
     movie->start();
-    QTimer::singleShot(10000,[=](){
+    QTimer *timer=new QTimer(this);
+    timer->start(10000);
+    connect(timer,&QTimer::timeout,[=](){
         delete this;
     });
 }

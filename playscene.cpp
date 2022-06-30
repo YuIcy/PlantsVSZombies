@@ -265,6 +265,7 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
 
  //植物部分
     memset(map,0,sizeof(map));
+    memset(plthp,0,sizeof(plthp));
 
     xlimit[0]=56;
     xlimit[1]=151;
@@ -287,6 +288,41 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
 
 }
 
+bool playscene::hit(int x, int y){
+    int i=0;
+    while(i<ZombieNumber){
+        if(raw_h[y-1]==zombie[i]->y()){
+            if(abs(x-(zombie[i]->x()+100))<=15){
+                zombie[i]->GetHurt(45);
+                return true;
+            }
+        }
+        i++;
+    }
+    return false;
+}
+
+bool playscene::peadetect(int x, int y){
+    int i=0;
+    while(i<ZombieNumber){
+        if(raw_h[y-1]==zombie[i]->y()&&zombie[i]->x()+100>x)return true;
+        i++;
+    }
+    return false;
+}
+bool playscene::potatodetect(int x, int y){
+    int i=0;
+    while(i<ZombieNumber){
+        if(raw_h[y-1]==zombie[i]->y()){
+            if(abs(x-(zombie[i]->x()+100))<=15){
+                zombie[i]->GetHurt(5000,true);
+                return true;
+            }
+        }
+        i++;
+    }
+    return false;
+}
 
 void playscene::paintEvent(QPaintEvent *event)
 {
@@ -374,7 +410,7 @@ void playscene::Born(int Number,int raw)
 //以下为植物部分
 
 int playscene::xtrans()
-{
+{//将行列数转换成x/y坐标
     int px;
     switch(clix)
     {
@@ -392,7 +428,7 @@ int playscene::xtrans()
 }
 
 int playscene::ytrans()
-{
+{//将行列数转换成x/y坐标
     int py;
     switch(cliy)
     {
@@ -491,14 +527,24 @@ void playscene::born(int planttype)
                 QSound::play(":/playscene/res/points.wav");
                 sunnum+=25;
                 sunlabel->setText(QString::number(sunnum));
+                for(int i=0;i<5;i++)
+                {
+                    if(!seedBank[i]->incd)
+                        seedBank[i]->checksun(sunnum);
+                }
                 sunButton->hide();
             });
 
+        });
+        QTimer * death=new QTimer(this);
+        death->start(1);
+        connect(death,&QTimer::timeout,[=](){
             if(plthp[cx][cy]<=0){
                 timer->stop();
+                death->stop();
                 plthp[cx][cy]=0;
                 map[cx][cy]=0;
-                pic[cx][cy]->clear();
+                delete pic[cx][cy];
             }
         });
     }
@@ -509,6 +555,8 @@ void playscene::born(int planttype)
         QTimer * timer0=new QTimer(this);
         timer0->start(2000);
         connect(timer0,&QTimer::timeout,[=](){
+        if(peadetect(xx,cy))
+        {
         QTimer * timer=new QTimer(this);
         timer->start(33);
         //更改了豌豆的名称并精简了代码
@@ -520,18 +568,24 @@ void playscene::born(int planttype)
         connect(timer,&QTimer::timeout,[=](){
             pealabel->move(pealabel->pos().x()+10,pealabel->pos().y());
             pealabel->show();
-            if(pealabel->pos().x()>1000){
+            if(pealabel->pos().x()>1000||hit(pealabel->pos().x(),cy)){
                 timer->stop();
-                pealabel->clear();
+                delete pealabel;
             }
-      });
-        if(plthp[cx][cy]<=0){
-            timer0->stop();
-            plthp[cx][cy]=0;
-            map[cx][cy]=0;
-            pic[cx][cy]->clear();
+      });//实现豌豆射击
         }
     });
+        QTimer * death=new QTimer(this);//判定植物死亡
+        death->start(1);
+        connect(death,&QTimer::timeout,[=](){
+            if(plthp[cx][cy]<=0){
+                timer0->stop();
+                death->stop();
+                plthp[cx][cy]=0;
+                map[cx][cy]=0;
+                delete pic[cx][cy];
+            }
+        });
     }
     else if(planttype==3)
     {
@@ -557,8 +611,8 @@ void playscene::born(int planttype)
 
         connect(timer,&QTimer::timeout,[=](){
 
-            if(plthp[cx][cy]>=300&&plthp[cx][cy]<=700){
-                Wallnut1->close();
+            if(plthp[cx][cy]>=300&&plthp[cx][cy]<=700){//实现坚果不同生命值对应的形态转换
+                delete Wallnut1;
                 QLabel *Wallnut2=new QLabel(this);
                 Wallnut2->resize(63,70);
                 Wallnut2->move(xx-5,yy-5);
@@ -576,7 +630,7 @@ void playscene::born(int planttype)
 
                      if(plthp[cx][cy]<300){
                          timer2->stop();
-                         Wallnut2->close();
+                         delete Wallnut2;
                          QLabel *Wallnut3=new QLabel(this);
                          Wallnut3->resize(63,70);
                          Wallnut3->move(xx-5,yy-5);
@@ -593,7 +647,7 @@ void playscene::born(int planttype)
                                   timer3->stop();
                                   plthp[cx][cy]=0;
                                   map[cx][cy]=0;
-                                  Wallnut3->clear();
+                                  delete Wallnut3;
                               }
                           });
 
@@ -608,8 +662,19 @@ void playscene::born(int planttype)
     {
         plthp[clix][cliy]=100;
         int xx=xtrans(),yy=ytrans(),cx=clix,cy=cliy;
-        QTimer::singleShot(1000,[=](){
-            pic[cx][cy]->clear();
+        QTimer * death=new QTimer(this);
+        death->start(1);
+        connect(death,&QTimer::timeout,[=](){
+            if(plthp[cx][cy]<=0){
+            death->stop();
+            plthp[cx][cy]=0;
+            map[cx][cy]=0;
+            delete pic[cx][cy];
+        }
+        });
+        QTimer::singleShot(1000,[=](){//实现土豆地雷生长时间
+            if(map[cx][cy]==4){
+            delete pic[cx][cy];
             QLabel *PotatoMine=new QLabel(this);
             PotatoMine->resize(74,53);
             PotatoMine->move(xx-5,yy+10);
@@ -618,18 +683,32 @@ void playscene::born(int planttype)
             PotatoMine->setScaledContents(true);
             movie->start();
             PotatoMine->show();
-            plthp[cx][cy]=5000;
-            QTimer * timer2=new QTimer(this);
-            timer2->start(1);
-             connect(timer2,&QTimer::timeout,[=](){
-            if(plthp[cx][cy]<=0){
-                timer2->stop();
-                plthp[cx][cy]=0;
-                map[cx][cy]=0;
-                PotatoMine->clear();
-            }
-             });
+            plthp[cx][cy]=50000;
+            death->stop();
+            QTimer * boom=new QTimer(this);//判断僵尸到来并自爆
+            boom->start(1);
+            connect(boom,&QTimer::timeout,[=](){
+                if(potatodetect(xx,cy)){
+                    boom->stop();
+                    plthp[cx][cy]=0;
+                    map[cx][cy]=0;
+                    delete PotatoMine;
+                    QLabel *Potatoboom=new QLabel(this);
+                    Potatoboom->resize(74,53);
+                    Potatoboom->move(xx-5,yy+10);
+                    QMovie *movie=new QMovie(":/pltimg/plantimages/PotatoMineBomb.gif");
+                    Potatoboom->setMovie(movie);
+                    Potatoboom->setScaledContents(true);
+                    movie->start();
+                    Potatoboom->show();
+                    QTimer::singleShot(1000,[=](){
+                        delete Potatoboom;
+                    });
+                }
+            });
+        }
         });
+
     }
     else if(planttype==5)
     {
@@ -637,7 +716,8 @@ void playscene::born(int planttype)
         int xx=xtrans(),yy=ytrans(),cx=clix,cy=cliy;
         QTimer * timer0=new QTimer(this);
         timer0->start(2000);
-        connect(timer0,&QTimer::timeout,[=](){
+        connect(timer0,&QTimer::timeout,[=](){//通过定时器嵌套实现双发射手
+        if(peadetect(xx,cy)){//判断本行前方有僵尸
         QTimer * timer=new QTimer(this);
         timer->start(33);
         QLabel *pealabel1=new QLabel(this);
@@ -648,9 +728,9 @@ void playscene::born(int planttype)
         connect(timer,&QTimer::timeout,[=](){
             pealabel1->move(pealabel1->pos().x()+10,pealabel1->pos().y());
             pealabel1->show();
-            if(pealabel1->pos().x()>1000){
+            if(pealabel1->pos().x()>1000||hit(pealabel1->pos().x(),cy)){
                 timer->stop();
-                pealabel1->clear();
+                delete pealabel1;
             }
       });
         QTimer::singleShot(300,[=](){
@@ -664,19 +744,25 @@ void playscene::born(int planttype)
             connect(timer,&QTimer::timeout,[=](){
                 pealabel2->move(pealabel2->pos().x()+10,pealabel2->pos().y());
                 pealabel2->show();
-                if(pealabel2->pos().x()>1000){
+                if(pealabel2->pos().x()>1000||hit(pealabel2->pos().x(),cy)){
                     timer->stop();
-                    pealabel2->clear();
+                    delete pealabel2;
                 }
           });
         });
-        if(plthp[cx][cy]<=0){
-            timer0->stop();
-            plthp[cx][cy]=0;
-            map[cx][cy]=0;
-            pic[cx][cy]->clear();
         }
     });
+        QTimer * death=new QTimer(this);//死亡判断
+        death->start(1);
+        connect(death,&QTimer::timeout,[=](){
+            if(plthp[cx][cy]<=0){
+                timer0->stop();
+                death->stop();
+                plthp[cx][cy]=0;
+                map[cx][cy]=0;
+                delete pic[cx][cy];
+            }
+        });
     }
 }
 
