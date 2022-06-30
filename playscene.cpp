@@ -243,6 +243,7 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
 
  //植物部分
     memset(map,0,sizeof(map));
+    memset(plthp,0,sizeof(plthp));
 
     xlimit[0]=56;
     xlimit[1]=151;
