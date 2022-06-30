@@ -275,8 +275,8 @@ void Zombies::Die(QString Gif)
 
 NormalZombie::NormalZombie()
 {
-    hp = 100;
-    WalkSpeed = 100;
+    hp = 200;
+    WalkSpeed = 150;
     EatSpeed = 1000;
     Hurt = 50;
     state = 1;
@@ -287,14 +287,14 @@ NormalZombie::NormalZombie()
 
 ConeZombie::ConeZombie()
 {
-    hp = 750;
-    WalkSpeed = 100;
+    hp = 570;
+    WalkSpeed = 150;
     EatSpeed = 1000;
     Hurt = 50;
     state = 4;
-    hp_ch[1]=200;
-    hp_ch[2]=400;
-    hp_ch[3]=600;
+    hp_ch[1]=210;
+    hp_ch[2]=330;
+    hp_ch[3]=450;
     WalkPath=":/zombie/ConeZombieWalk.gif";
     EatPath=":/zombie/ConeZombieAttack.gif";
     DiePath=":/zombie/ZombieDie.gif";
@@ -302,14 +302,14 @@ ConeZombie::ConeZombie()
 
 BucketZombie::BucketZombie()
 {
-    hp = 950;
-    WalkSpeed = 400;
+    hp = 1300;
+    WalkSpeed = 150;
     EatSpeed = 1000;
     Hurt = 50;
     state = 4;
-    hp_ch[1]=200;
-    hp_ch[2]=500;
-    hp_ch[3]=800;
+    hp_ch[1]=300;
+    hp_ch[2]=600;
+    hp_ch[3]=900;
     WalkPath=":/zombie/BucketZombieWalk.gif";
     EatPath=":/zombie/BucketZombieAttack.gif";
     DiePath=":/zombie/ZombieDie.gif";
@@ -317,8 +317,8 @@ BucketZombie::BucketZombie()
 
 FootballZombie::FootballZombie()
 {
-    hp = 1250;
-    WalkSpeed = 400;
+    hp = 1600;
+    WalkSpeed = 300;
     EatSpeed = 1000;
     Hurt = 50;
     state = 1;

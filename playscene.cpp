@@ -207,7 +207,7 @@ bool playscene::hit(int x, int y){
     while(i<ZombieNumber){
         if(raw_h[y-1]==zombie[i]->y()){
             if(abs(x-(zombie[i]->x()+100))<=15){
-                zombie[i]->GetHurt(45);
+                zombie[i]->GetHurt(40);
                 return true;
             }
         }
@@ -430,7 +430,7 @@ void playscene::born(int planttype)
     if(planttype==1)
     {//plant type：1：向日葵 2：豌豆射手 3：坚果 4：土豆地雷 5：双发射手
 
-        plthp[clix][cliy]=100;
+        plthp[clix][cliy]=300;
         int xx=xtrans(),yy=ytrans(),cx=clix,cy=cliy;
         QTimer * timer=new QTimer(this);
         timer->start(10000);
@@ -473,7 +473,7 @@ void playscene::born(int planttype)
     }
     else if(planttype==2)
     {
-        plthp[clix][cliy]=100;
+        plthp[clix][cliy]=300;
         int xx=xtrans(),yy=ytrans(),cx=clix,cy=cliy;
         QTimer * timer0=new QTimer(this);
         timer0->start(2000);
@@ -525,7 +525,7 @@ void playscene::born(int planttype)
         movie->start();
         Wallnut1->show();
 
-        plthp[clix][cliy]=1000;
+        plthp[clix][cliy]=4000;
 
         int cx=clix,cy=cliy,xx=xtrans(),yy=ytrans();
 
@@ -534,7 +534,7 @@ void playscene::born(int planttype)
 
         connect(timer,&QTimer::timeout,[=](){
 
-            if(plthp[cx][cy]>=300&&plthp[cx][cy]<=700){//实现坚果不同生命值对应的形态转换
+            if(plthp[cx][cy]>=1333&&plthp[cx][cy]<=2666){//实现坚果不同生命值对应的形态转换
                 delete Wallnut1;
                 QLabel *Wallnut2=new QLabel(this);
                 Wallnut2->resize(63,70);
@@ -551,7 +551,7 @@ void playscene::born(int planttype)
                 timer2->start(33);
                  connect(timer2,&QTimer::timeout,[=](){
 
-                     if(plthp[cx][cy]<300){
+                     if(plthp[cx][cy]<1333){
                          timer2->stop();
                          delete Wallnut2;
                          QLabel *Wallnut3=new QLabel(this);
@@ -583,7 +583,7 @@ void playscene::born(int planttype)
     }
     else if(planttype==4)
     {
-        plthp[clix][cliy]=100;
+        plthp[clix][cliy]=300;
         int xx=xtrans(),yy=ytrans(),cx=clix,cy=cliy;
         QTimer * death=new QTimer(this);
         death->start(33);
@@ -595,7 +595,7 @@ void playscene::born(int planttype)
             delete pic[cx][cy];
         }
         });
-        QTimer::singleShot(1000,[=](){//实现土豆地雷生长时间
+        QTimer::singleShot(15000,[=](){//实现土豆地雷生长时间
             if(map[cx][cy]==4){
             delete pic[cx][cy];
             QLabel *PotatoMine=new QLabel(this);
@@ -635,7 +635,7 @@ void playscene::born(int planttype)
     }
     else if(planttype==5)
     {
-        plthp[clix][cliy]=100;
+        plthp[clix][cliy]=300;
         int xx=xtrans(),yy=ytrans(),cx=clix,cy=cliy;
         QTimer * timer0=new QTimer(this);
         timer0->start(2000);
