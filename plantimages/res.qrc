@@ -1,0 +1,34 @@
+<RCC>
+    <qresource prefix="/plres">
+        <file>Background.jpg</file>
+        <file>Boom.gif</file>
+        <file>Button.png</file>
+        <file>Card.png</file>
+        <file>CherryBomb.gif</file>
+        <file>CherryBomb.png</file>
+        <file>LawnMower.png</file>
+        <file>Pea.png</file>
+        <file>Peashooter.gif</file>
+        <file>Peashooter.png</file>
+        <file>PeaSnow.png</file>
+        <file>PotatoMine.gif</file>
+        <file>PotatoMine.png</file>
+        <file>PotatoMine1.gif</file>
+        <file>PotatoMineBomb.gif</file>
+        <file>Repeater.gif</file>
+        <file>Repeater.png</file>
+        <file>res.qrc</file>
+        <file>Shop.png</file>
+        <file>Shovel.png</file>
+        <file>ShovelBank.png</file>
+        <file>SnowPea.gif</file>
+        <file>SnowPea.png</file>
+        <file>Sun.gif</file>
+        <file>SunFlower.gif</file>
+        <file>SunFlower.png</file>
+        <file>WallNut.gif</file>
+        <file>WallNut.png</file>
+        <file>WallNut1.gif</file>
+        <file>WallNut2.gif</file>
+    </qresource>
+</RCC>

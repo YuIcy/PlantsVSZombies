@@ -46,13 +46,28 @@ public:
     int raw_h[5]={50,170,290,400,520};
     void Born(int Number, int raw);//僵尸出生函数 参数1 僵尸枚举类型 参数2 出生在第几行
 /***************************************************************************************************/
+//<<<<<<< HEAD
+//植物部分
+//=======
 //游戏胜利，失败
     void Pwin();
     void Zwin();
     QSound * WeCome = nullptr;
 
 /***************************************************************************************************/
+//>>>>>>> 56cdef394400ffb177aada4b3c280155e717f2da
 
+    void createplant(int planttype);
+    int map[10][6],clix,cliy,xlimit[10],ylimit[6];
+//    map为地图数组，值为0表示无植物，1-5表示不同植物种类
+//    clix/y:clickX and clickY,int，表示鼠标点击位置位于第几行第几列
+//    x/ylimit:用于调用事先保存的显示gif的具体坐标
+    bool visited(int x,int y);
+    void born(int planttype);
+    int xtrans();//将10以内的格子行（列）坐标转换成用于显示动图的位置坐标
+    int ytrans();//同上
+    int plthp[10][6];//植物生命值数组
+    QLabel * pic[10][6];//用于存放指向植物原图的指针
 
 
 signals:

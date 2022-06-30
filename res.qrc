@@ -48,10 +48,6 @@
         <file>res/Shovel.png</file>
         <file>res/ShovelBank.png</file>
         <file>res/shovel.wav</file>
-        <file>res/losePic.png</file>
-        <file>res/trophy.png</file>
-        <file>res/WinWindow.png</file>
-        <file>res/loseWindow.png</file>
     </qresource>
     <qresource prefix="/">
         <file>zombie/bigchomp.wav</file>
@@ -99,5 +95,23 @@
         <file>zombie/winmusic.wav</file>
         <file>zombie/ZombiesWon.jpg</file>
         <file>zombie/scream.wav</file>
+    </qresource>
+    <qresource prefix="/pltimg">
+        <file>plantimages/Pea.png</file>
+        <file>plantimages/Peashooter.gif</file>
+        <file>plantimages/Peashooter.png</file>
+        <file>plantimages/PotatoMine.gif</file>
+        <file>plantimages/PotatoMine.png</file>
+        <file>plantimages/PotatoMine1.gif</file>
+        <file>plantimages/PotatoMineBomb.gif</file>
+        <file>plantimages/Repeater.gif</file>
+        <file>plantimages/Repeater.png</file>
+        <file>plantimages/Sun.gif</file>
+        <file>plantimages/SunFlower.gif</file>
+        <file>plantimages/SunFlower.png</file>
+        <file>plantimages/WallNut.gif</file>
+        <file>plantimages/WallNut.png</file>
+        <file>plantimages/WallNut1.gif</file>
+        <file>plantimages/WallNut2.gif</file>
     </qresource>
 </RCC>

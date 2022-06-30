@@ -153,6 +153,7 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
 
     //设置菜单按钮
     MyPushButton* menu=new MyPushButton(this,true,":/playscene/res/MenuButton.png");
+    qDebug()<<size();
     menu->move(this->width()-menu->width(),0);
     menu->show();
     connect(menu,&MyPushButton::clicked,[=](){
@@ -241,6 +242,27 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
 
     });
 
+ //植物部分
+    memset(map,0,sizeof(map));
+
+    xlimit[0]=56;
+    xlimit[1]=151;
+    xlimit[2]=243;
+    xlimit[3]=346;
+    xlimit[4]=437;
+    xlimit[5]=540;
+    xlimit[6]=636;
+    xlimit[7]=730;
+    xlimit[8]=815;
+    xlimit[9]=919;
+
+    ylimit[0]=98;
+    ylimit[1]=217;
+    ylimit[2]=328;
+    ylimit[3]=446;
+    ylimit[4]=567;
+    ylimit[5]=680;
+
 
 }
 
@@ -254,6 +276,7 @@ void playscene::paintEvent(QPaintEvent *event)
 }
 void playscene::mousePressEvent(QMouseEvent *event)
 {
+    qDebug()<<event->x()<<' '<<event->y();
     if(isPlanting!=-1)
     {
         if(event->button()==Qt::RightButton)
@@ -270,6 +293,12 @@ void playscene::mousePressEvent(QMouseEvent *event)
         {
             if(isPlanting>=0)
             {
+
+                if(visited(event->x(),event->y())){
+                    createplant(isPlanting+1);//此处和下一行目前可用于调整植物种类
+                    born(isPlanting+1);//方法是调整这两个函数的第一个参数（1-5）
+                }
+
                 setCursor(Qt::ArrowCursor);
                 sunnum-=seedBank[isPlanting]->sun;
                 sunlabel->setText(QString::number(sunnum));
@@ -320,38 +349,317 @@ void playscene::Born(int Number,int raw)
     ++ZombieNumber;
 }
 /***************************************************************************************************/
+//<<<<<<< HEAD
+
+//以下为植物部分
+
+int playscene::xtrans()
+{
+    int px;
+    if(clix==1)px=70;
+    if(clix==2)px=165;
+    if(clix==3)px=265;
+    if(clix==4)px=360;
+    if(clix==5)px=455;
+    if(clix==6)px=555;
+    if(clix==7)px=650;
+    if(clix==8)px=745;
+    if(clix==9)px=845;
+    return px;
+}
+
+int playscene::ytrans()
+{
+    int py;
+    if(cliy==1)py=120;
+    if(cliy==2)py=240;
+    if(cliy==3)py=360;
+    if(cliy==4)py=480;
+    if(cliy==5)py=600;
+    return py;
+}
+
+bool playscene::visited(int x,int y)
+{//判断鼠标点击的方格是否已经有植物
+    int i=0,j=0,f1=0,f2=0,xx,yy;
+    while(i<=8){
+        if(x>=xlimit[i]&&x<=xlimit[i+1]){
+            xx=i+1;
+            f1=1;
+        }
+        i++;
+    }
+    while(j<=4){
+        if(y>=ylimit[j]&&y<=ylimit[j+1]){
+            yy=j+1;
+            f2=1;
+        }
+        j++;
+    }
+    if(f1==1&&f2==1&&map[xx][yy]==0){
+        clix=xx;
+        cliy=yy;
+        return true;
+    }
+    return false;
+}
+
+void playscene::createplant(int planttype)//功能是创建植物的gif图形
+{//plant type：1：向日葵 2：豌豆射手 3：坚果 4：土豆地雷 5：双发射手
+    int px,py;
+    px=xtrans();
+    py=ytrans();
+    if(planttype!=3){
+    QLabel *label_movie=new QLabel(this);
+    label_movie=new QLabel(this);
+    label_movie->resize(60,60);//标签设置大小
+    label_movie->move(px,py);//标签设置位置
+    QMovie *movie;
+    if(planttype==1){
+        movie=new QMovie(":/pltimg/plantimages/SunFlower.gif");//动图的资源
+    }
+    if(planttype==2){
+        movie=new QMovie(":/pltimg/plantimages/Peashooter.gif");
+    }
+    if(planttype==4){
+        movie=new QMovie(":/pltimg/plantimages/PotatoMine1.gif");
+    }
+    if(planttype==5){
+        movie=new QMovie(":/pltimg/plantimages/Repeater.gif");
+    }
+    label_movie->setMovie(movie);//设置标签的动图
+    label_movie->setScaledContents(true);//设置为自适应大小
+    movie->start();
+    label_movie->show();
+    pic[clix][cliy]=label_movie;
+}
+}
+
+void playscene::born(int planttype)
+{//功能为实现各植物的特性
+    map[clix][cliy]=planttype;
+    if(planttype==1){//plant type：1：向日葵 2：豌豆射手 3：坚果 4：土豆地雷 5：双发射手
+        plthp[clix][cliy]=100;
+        int xx=xtrans(),yy=ytrans(),cx=clix,cy=cliy;
+        QTimer * timer=new QTimer(this);
+        timer->start(2000);
+        connect(timer,&QTimer::timeout,[=](){
+            QLabel *label_movie=new QLabel(this);
+            label_movie=new QLabel(this);
+            label_movie->resize(60,60);
+            label_movie->move(xx+10,yy+15);
+            QMovie *movie=new QMovie(":/pltimg/plantimages/Sun.gif");
+            label_movie->setMovie(movie);
+            label_movie->setScaledContents(true);
+            movie->start();
+            label_movie->show();
+            if(plthp[cx][cy]<=0){
+                timer->stop();
+                plthp[cx][cy]=0;
+                map[cx][cy]=0;
+                pic[cx][cy]->clear();
+            }
+        });
+    }
+    if(planttype==2){//plant type：1：向日葵 2：豌豆射手 3：坚果 4：土豆地雷 5：双发射手
+        plthp[clix][cliy]=100;
+        int xx=xtrans(),yy=ytrans(),cx=clix,cy=cliy;
+        QTimer * timer0=new QTimer(this);
+        timer0->start(2000);
+        connect(timer0,&QTimer::timeout,[=](){
+        QTimer * timer=new QTimer(this);
+        timer->start(33);
+        QLabel *label_movie=new QLabel(this);
+        label_movie=new QLabel(this);
+        label_movie->resize(25,25);
+        label_movie->move(xx+40,yy+2);
+        QMovie *movie=new QMovie(":/pltimg/plantimages/Pea.png");
+        label_movie->setMovie(movie);
+        label_movie->setScaledContents(true);
+        movie->start();
+        label_movie->show();
+        connect(timer,&QTimer::timeout,[=](){
+            label_movie->move(label_movie->pos().x()+10,label_movie->pos().y());
+            label_movie->show();
+            if(label_movie->pos().x()>1000){
+                timer->stop();
+                label_movie->clear();
+            }
+      });
+        if(plthp[cx][cy]<=0){
+            timer0->stop();
+            plthp[cx][cy]=0;
+            map[cx][cy]=0;
+            pic[cx][cy]->clear();
+        }
+    });
+    }
+    if(planttype==3){//plant type：1：向日葵 2：豌豆射手 3：坚果 4：土豆地雷 5：双发射手
+
+        int px,py;
+        px=xtrans();
+        py=ytrans();
+        QLabel *label_movie=new QLabel(this);
+        label_movie=new QLabel(this);
+        label_movie->resize(60,60);
+        label_movie->move(px,py);
+        QMovie *movie;
+        movie=new QMovie(":/pltimg/plantimages/WallNut.gif");
+        label_movie->setMovie(movie);
+        label_movie->setScaledContents(true);
+        movie->start();
+        label_movie->show();
+
+        plthp[clix][cliy]=1000;
+
+        int cx=clix,cy=cliy,xx=xtrans(),yy=ytrans();
+
+        QTimer * timer=new QTimer(this);
+        timer->start(1);
+
+        connect(timer,&QTimer::timeout,[=](){
+
+            if(plthp[cx][cy]>=300&&plthp[cx][cy]<=700){
+                label_movie->close();
+                QLabel *label_movie2=new QLabel(this);
+                label_movie2=new QLabel(this);
+                label_movie2->resize(60,60);
+                label_movie2->move(xx,yy);
+                QMovie *movie2=new QMovie(":/pltimg/plantimages/WallNut1.gif");
+                label_movie2->setMovie(movie2);
+                label_movie2->setScaledContents(true);
+                movie2->start();
+                label_movie2->show();
+
+                timer->stop();
+
+                QTimer * timer2=new QTimer(this);
+                timer2->start(1);
+                 connect(timer2,&QTimer::timeout,[=](){
+
+                     if(plthp[cx][cy]<300){
+                         timer2->stop();
+                         label_movie2->close();
+                         QLabel *label_movie3=new QLabel(this);
+                         label_movie3=new QLabel(this);
+                         label_movie3->resize(60,60);
+                         label_movie3->move(xx,yy);
+                         QMovie *movie3=new QMovie(":/pltimg/plantimages/WallNut2.gif");
+                         label_movie3->setMovie(movie3);
+                         label_movie3->setScaledContents(true);
+                         movie3->start();
+                         label_movie3->show();
+
+                         QTimer * timer3=new QTimer(this);
+                         timer3->start(1);
+                          connect(timer3,&QTimer::timeout,[=](){
+                              if(plthp[cx][cy]<=0){
+                                  timer3->stop();
+                                  plthp[cx][cy]=0;
+                                  map[cx][cy]=0;
+                                  label_movie3->clear();
+                              }
+                          });
+
+                     }
+
+                 });
+            }
+
+       });
+    }
+    if(planttype==4){//plant type：1：向日葵 2：豌豆射手 3：坚果 4：土豆地雷 5：双发射手
+        plthp[clix][cliy]=100;
+        int xx=xtrans(),yy=ytrans(),cx=clix,cy=cliy;
+        QTimer::singleShot(1000,[=](){
+            pic[cx][cy]->clear();
+            QLabel *label_movie=new QLabel(this);
+            label_movie=new QLabel(this);
+            label_movie->resize(60,60);
+            label_movie->move(xx,yy);
+            QMovie *movie=new QMovie(":/pltimg/plantimages/PotatoMine.gif");
+            label_movie->setMovie(movie);
+            label_movie->setScaledContents(true);
+            movie->start();
+            label_movie->show();
+            plthp[cx][cy]=5000;
+            QTimer * timer2=new QTimer(this);
+            timer2->start(1);
+             connect(timer2,&QTimer::timeout,[=](){
+            if(plthp[cx][cy]<=0){
+                timer2->stop();
+                plthp[cx][cy]=0;
+                map[cx][cy]=0;
+                label_movie->clear();
+            }
+             });
+        });
+    }
+    if(planttype==5){//plant type：1：向日葵 2：豌豆射手 3：坚果 4：土豆地雷 5：双发射手
+        plthp[clix][cliy]=100;
+        int xx=xtrans(),yy=ytrans(),cx=clix,cy=cliy;
+        QTimer * timer0=new QTimer(this);
+        timer0->start(2000);
+        connect(timer0,&QTimer::timeout,[=](){
+        QTimer * timer=new QTimer(this);
+        timer->start(33);
+        QLabel *label_movie=new QLabel(this);
+        label_movie=new QLabel(this);
+        label_movie->resize(25,25);
+        label_movie->move(xx+40,yy+2);
+        QMovie *movie=new QMovie(":/pltimg/plantimages/Pea.png");
+        label_movie->setMovie(movie);
+        label_movie->setScaledContents(true);
+        movie->start();
+        label_movie->show();
+        connect(timer,&QTimer::timeout,[=](){
+            label_movie->move(label_movie->pos().x()+10,label_movie->pos().y());
+            label_movie->show();
+            if(label_movie->pos().x()>1000){
+                timer->stop();
+                label_movie->clear();
+            }
+      });
+        QTimer::singleShot(300,[=](){
+            QTimer * timer=new QTimer(this);
+            timer->start(33);
+            QLabel *label_movie=new QLabel(this);
+            label_movie=new QLabel(this);
+            label_movie->resize(25,25);
+            label_movie->move(xx+40,yy+2);
+            QMovie *movie=new QMovie(":/pltimg/plantimages/Pea.png");
+            label_movie->setMovie(movie);
+            label_movie->setScaledContents(true);
+            movie->start();
+            label_movie->show();
+            connect(timer,&QTimer::timeout,[=](){
+                label_movie->move(label_movie->pos().x()+10,label_movie->pos().y());
+                label_movie->show();
+                if(label_movie->pos().x()>1000){
+                    timer->stop();
+                    label_movie->clear();
+                }
+          });
+        });
+        if(plthp[cx][cy]<=0){
+            timer0->stop();
+            plthp[cx][cy]=0;
+            map[cx][cy]=0;
+            pic[cx][cy]->clear();
+        }
+    });
+    }
+}
+
+
+//=======
 void playscene::Pwin()
 {
-
-    MyPushButton* trophy=new MyPushButton(this,true,":/playscene/res/trophy.png");
-    trophy->move((width()-trophy->width())*0.5,(height()-trophy->height())*0.5);
-    trophy->show();
-    QPropertyAnimation *tanime=new QPropertyAnimation(trophy,"geometry",this);
-    tanime->setStartValue(QRect((width()-trophy->width())*0.5,(height()-trophy->height())*0.5-50,trophy->width(),trophy->height()));
-    tanime->setEndValue(QRect((width()-trophy->width())*0.5,(height()-trophy->height())*0.5,trophy->width(),trophy->height()));
-    tanime->setEasingCurve(QEasingCurve::InBack);
-    tanime->setDuration(500);
-    tanime->start();
-    battelbgm->stop();
-    connect(trophy,&MyPushButton::clicked,[=](){
-
-        WeCome = new QSound(":/zombie/winmusic.wav",this);
-        WeCome->setLoops(1);
-        WeCome->play();
-        timer->disconnect();
-        Ctimer->disconnect();
-        QTimer::singleShot(1000,[=](){
-                ShapedWindow* win=new ShapedWindow(this,":/playscene/res/WinWindow.png");
-                win->move((this->width()-win->width())*0.5,(this->height()-win->height())*0.5);
-                MyPushButton* yes=new MyPushButton(win,true,":/menu/res/yesButton2.png");
-                connect(yes,&MyPushButton::clicked,[=](){
-                    emit mainmenu();
-                });
-                yes->move((win->width()-yes->width())*0.5-5,215);
-                win->show();
-        });
-    });
-
+    WeCome = new QSound(":/zombie/winmusic.wav",this);
+    WeCome->setLoops(1);
+    WeCome->play();
+    timer->disconnect();
+    Ctimer->disconnect();
 }
 
 void playscene::Zwin()
@@ -361,10 +669,6 @@ void playscene::Zwin()
     WeCome->setLoops(1);
     WeCome->play();
     QTimer::singleShot(3800,[=](){
-        QLabel* loselabel=new QLabel(this);
-        loselabel->setStyleSheet("border-image:url(:/playscene/res/losePic.png);");
-        loselabel->resize(size());
-        loselabel->show();
         WeCome->stop();
         WeCome = new QSound(":/zombie/evillaugh.wav",this);
         WeCome->setLoops(1);
@@ -372,17 +676,6 @@ void playscene::Zwin()
         WeCome = new QSound(":/zombie/scream.wav",this);
         WeCome->setLoops(1);
         WeCome->play();
-        QTimer::singleShot(3800,[=](){
-            ShapedWindow* lose=new ShapedWindow(this,":/playscene/res/loseWindow.png");
-            lose->move((this->width()-lose->width())*0.5,(this->height()-lose->height())*0.5);
-            MyPushButton* yes=new MyPushButton(lose,true,":/menu/res/yesButton2.png");
-            connect(yes,&MyPushButton::clicked,[=](){
-                battelbgm->stop();
-                emit mainmenu();
-            });
-            yes->move((lose->width()-yes->width())*0.5-5,215);
-            lose->show();
-        });
     });
     for(int i=0;i<ZombieNumber;++i)
         delete zombie[i];
@@ -391,3 +684,4 @@ void playscene::Zwin()
 }
 
 /***************************************************************************************************/
+//>>>>>>> 56cdef394400ffb177aada4b3c280155e717f2da
