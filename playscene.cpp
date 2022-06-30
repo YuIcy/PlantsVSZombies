@@ -72,10 +72,7 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
                                             return;
                                         if(plthp[zombie[i]->Mx][zombie[i]->My]>0)
                                         {
-                                            for(int k=1;k<6;++k)
-                                            {
-                                            }
-                                            --plthp[zombie[i]->Mx][zombie[i]->My];
+                                            plthp[zombie[i]->Mx][zombie[i]->My] -= zombie[i]->Hurt;
                                             if(!zombie[i]->IfEat)
                                                 zombie[i]->Eat(zombie[i]->EatPath);
                                         }
@@ -220,10 +217,7 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
                             return;
                         if(plthp[zombie[i]->Mx][zombie[i]->My]>0)
                         {
-                            for(int k=1;k<6;++k)
-                            {
-                            }
-                            --plthp[zombie[i]->Mx][zombie[i]->My];
+                            plthp[zombie[i]->Mx][zombie[i]->My] -= zombie[i]->Hurt;
                             if(!zombie[i]->IfEat)
                                 zombie[i]->Eat(zombie[i]->EatPath);
                         }

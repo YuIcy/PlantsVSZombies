@@ -278,7 +278,7 @@ NormalZombie::NormalZombie()
     hp = 100;
     WalkSpeed = 100;
     EatSpeed = 1000;
-    Hurt = 50;
+    Hurt = 1;
     state = 1;
     WalkPath=":/zombie/ZombieWalk1.gif";
     EatPath=":/zombie/ZombieAttack.gif";
@@ -290,7 +290,7 @@ ConeZombie::ConeZombie()
     hp = 750;
     WalkSpeed = 100;
     EatSpeed = 1000;
-    Hurt = 50;
+    Hurt = 1;
     state = 4;
     hp_ch[1]=200;
     hp_ch[2]=400;
@@ -305,7 +305,7 @@ BucketZombie::BucketZombie()
     hp = 950;
     WalkSpeed = 400;
     EatSpeed = 1000;
-    Hurt = 50;
+    Hurt = 1;
     state = 4;
     hp_ch[1]=200;
     hp_ch[2]=500;
@@ -320,7 +320,7 @@ FootballZombie::FootballZombie()
     hp = 1250;
     WalkSpeed = 400;
     EatSpeed = 1000;
-    Hurt = 50;
+    Hurt = 2;
     state = 1;
     hp_ch[1]=10000;//只有一个状态的图片，所以阻止状态改变
     hp_ch[2]=10000;
