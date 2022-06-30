@@ -37,8 +37,14 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
                     delete mask;
                     battelbgm->play();
                     /***************************************************************************************************/
+                    QTimer::singleShot(800,[=](){
+                        WeCome = new QSound(":/zombie/awooga.wav",this);
+                        WeCome->setLoops(1);
+                        WeCome->play();
+                    });
+                    /***************************************************************************************************/
                     //僵尸死亡监视器以及僵尸随机生成器
-                            timer = new QTimer;
+                            timer = new QTimer(this);
                             connect(timer,&QTimer::timeout,[=](){
                                 for(int i=0;i<ZombieNumber;++i)
                                 {
@@ -56,15 +62,32 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
                                             --ZombieNumber;
                                             --i;
                                         }
+                                        else{}
+                                    }
+                                    else
+                                    {
+                                        if(zombie[i]->x()<=-100)
+                                            Zwin();
                                     }
                                 }
                             });
                             timer->start(10);
                             zombie = new Zombies*[MaxNumber];
-                            Ctimer = new QTimer;
-                            connect(Ctimer,&QTimer::timeout,[=](){
-                                Born(FCzombie[Zcnt%10],FCraw[Zcnt%10]);
-                                ++Zcnt;
+                            Ctimer = new QTimer(this);
+                            connect(Ctimer,&QTimer::timeout,[=](){//僵尸随机生成
+                                if(Zcnt == 50)
+                                {
+                                    if(ZombieNumber == 0)
+                                    {
+                                        Pwin();
+                                    }
+                                    else{}
+                                }
+                                else
+                                {
+                                    Born(FCzombie[Zcnt%10],FCraw[Zcnt%10]);
+                                    ++Zcnt;
+                                }
                             });
                             Ctimer->start(8000);//8秒生成一个僵尸
                     /***************************************************************************************************/
@@ -130,7 +153,6 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
 
     //设置菜单按钮
     MyPushButton* menu=new MyPushButton(this,true,":/playscene/res/MenuButton.png");
-    qDebug()<<size();
     menu->move(this->width()-menu->width(),0);
     menu->show();
     connect(menu,&MyPushButton::clicked,[=](){
@@ -171,12 +193,29 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
                             --ZombieNumber;
                             --i;
                         }
+                        else{}
+                    }
+                    else
+                    {
+                        if(zombie[i]->x()<=-100)
+                            Zwin();
                     }
                 }
             });
             connect(Ctimer,&QTimer::timeout,[=](){//僵尸随机生成
-                Born(FCzombie[Zcnt%10],FCraw[Zcnt%10]);
-                ++Zcnt;
+                if(Zcnt == 50)
+                {
+                    if(ZombieNumber == 0)
+                    {
+                        Pwin();
+                    }
+                    else{}
+                }
+                else
+                {
+                    Born(FCzombie[Zcnt%10],FCraw[Zcnt%10]);
+                    ++Zcnt;
+                }
             });
             /***************************************************************************************************/
         });
@@ -309,6 +348,7 @@ void playscene::Born(int Number,int raw)
     ++ZombieNumber;
 }
 /***************************************************************************************************/
+<<<<<<< HEAD
 
 //以下为植物部分
 
@@ -611,3 +651,76 @@ void playscene::born(int planttype)
 }
 
 
+=======
+void playscene::Pwin()
+{
+
+    MyPushButton* trophy=new MyPushButton(this,true,":/playscene/res/trophy.png");
+    trophy->move((width()-trophy->width())*0.5,(height()-trophy->height())*0.5);
+    trophy->show();
+    QPropertyAnimation *tanime=new QPropertyAnimation(trophy,"geometry",this);
+    tanime->setStartValue(QRect((width()-trophy->width())*0.5,(height()-trophy->height())*0.5-50,trophy->width(),trophy->height()));
+    tanime->setEndValue(QRect((width()-trophy->width())*0.5,(height()-trophy->height())*0.5,trophy->width(),trophy->height()));
+    tanime->setEasingCurve(QEasingCurve::InBack);
+    tanime->setDuration(500);
+    tanime->start();
+    battelbgm->stop();
+    connect(trophy,&MyPushButton::clicked,[=](){
+
+        WeCome = new QSound(":/zombie/winmusic.wav",this);
+        WeCome->setLoops(1);
+        WeCome->play();
+        timer->disconnect();
+        Ctimer->disconnect();
+        QTimer::singleShot(1000,[=](){
+                ShapedWindow* win=new ShapedWindow(this,":/playscene/res/WinWindow.png");
+                win->move((this->width()-win->width())*0.5,(this->height()-win->height())*0.5);
+                MyPushButton* yes=new MyPushButton(win,true,":/menu/res/yesButton2.png");
+                connect(yes,&MyPushButton::clicked,[=](){
+                    emit mainmenu();
+                });
+                yes->move((win->width()-yes->width())*0.5-5,215);
+                win->show();
+        });
+    });
+
+}
+
+void playscene::Zwin()
+{
+    battelbgm->stop();
+    WeCome = new QSound(":/zombie/losemusic.wav",this);
+    WeCome->setLoops(1);
+    WeCome->play();
+    QTimer::singleShot(3800,[=](){
+        QLabel* loselabel=new QLabel(this);
+        loselabel->setStyleSheet("border-image:url(:/playscene/res/losePic.png);");
+        loselabel->resize(size());
+        loselabel->show();
+        WeCome->stop();
+        WeCome = new QSound(":/zombie/evillaugh.wav",this);
+        WeCome->setLoops(1);
+        WeCome->play();
+        WeCome = new QSound(":/zombie/scream.wav",this);
+        WeCome->setLoops(1);
+        WeCome->play();
+        QTimer::singleShot(3800,[=](){
+            ShapedWindow* lose=new ShapedWindow(this,":/playscene/res/loseWindow.png");
+            lose->move((this->width()-lose->width())*0.5,(this->height()-lose->height())*0.5);
+            MyPushButton* yes=new MyPushButton(lose,true,":/menu/res/yesButton2.png");
+            connect(yes,&MyPushButton::clicked,[=](){
+                battelbgm->stop();
+                emit mainmenu();
+            });
+            yes->move((lose->width()-yes->width())*0.5-5,215);
+            lose->show();
+        });
+    });
+    for(int i=0;i<ZombieNumber;++i)
+        delete zombie[i];
+    timer->disconnect();
+    Ctimer->disconnect();
+}
+
+/***************************************************************************************************/
+>>>>>>> 56cdef394400ffb177aada4b3c280155e717f2da

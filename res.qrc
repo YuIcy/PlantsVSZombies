@@ -48,6 +48,10 @@
         <file>res/Shovel.png</file>
         <file>res/ShovelBank.png</file>
         <file>res/shovel.wav</file>
+        <file>res/losePic.png</file>
+        <file>res/trophy.png</file>
+        <file>res/WinWindow.png</file>
+        <file>res/loseWindow.png</file>
     </qresource>
     <qresource prefix="/">
         <file>zombie/bigchomp.wav</file>
@@ -89,6 +93,12 @@
         <file>zombie/ZombieHead.gif</file>
         <file>zombie/ZombieWalk1.gif</file>
         <file>zombie/ZombieWalk2.gif</file>
+        <file>zombie/awooga.wav</file>
+        <file>zombie/evillaugh.wav</file>
+        <file>zombie/losemusic.wav</file>
+        <file>zombie/winmusic.wav</file>
+        <file>zombie/ZombiesWon.jpg</file>
+        <file>zombie/scream.wav</file>
     </qresource>
     <qresource prefix="/pltimg">
         <file>plantimages/Pea.png</file>
