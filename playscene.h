@@ -26,8 +26,9 @@ public:
     int sunnum=1000;
     QLabel *sunlabel;
     Seed* seedBank[5];
-    int sunsequence[5]={50,100,200,50,25};
-    int cooldownsequence[5]={7500,7500,7500,30000,30000};
+    int sunsequence[5]={50,100,50,25,200};
+    int cooldownsequence[5]={7500,7500,30000,30000,7500};
+    QString namesequence[5]={"SunFlower","Peashooter","WallNut","PotatoMine","Repeater"};
     int isPlanting=-1;
     Shovel* shovel;
     void paintEvent(QPaintEvent *event);

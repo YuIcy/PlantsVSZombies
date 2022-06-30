@@ -52,6 +52,11 @@
         <file>res/loseWindow.png</file>
         <file>res/trophy.png</file>
         <file>res/WinWindow.png</file>
+        <file>res/points.wav</file>
+        <file>res/Peashooter.png</file>
+        <file>res/Repeater.png</file>
+        <file>res/WallNut.png</file>
+        <file>res/PotatoMine.png</file>
     </qresource>
     <qresource prefix="/">
         <file>zombie/bigchomp.wav</file>

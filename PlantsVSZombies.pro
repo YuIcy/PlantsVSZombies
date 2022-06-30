@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     playscene.cpp \
     seed.cpp \
     zombies.cpp \
-    shovel.cpp
+    shovel.cpp \
+    mysun.cpp
 
 HEADERS  += mainwindow.h \
     mymenu.h \
@@ -29,7 +30,8 @@ HEADERS  += mainwindow.h \
     playscene.h \
     seed.h \
     zombies.h \
-    shovel.h
+    shovel.h \
+    mysun.h
 
 FORMS    += mainwindow.ui
 
