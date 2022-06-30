@@ -23,7 +23,7 @@ class playscene : public QWidget
 public:
     explicit playscene(QWidget *parent = 0);
     QSound *battelbgm;
-    int sunnum=1000;
+    int sunnum=100;
     QLabel *sunlabel;
     Seed* seedBank[5];
     int sunsequence[5]={50,100,50,25,200};
