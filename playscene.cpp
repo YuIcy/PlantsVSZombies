@@ -245,23 +245,23 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
  //植物部分
     memset(map,0,sizeof(map));
 
-    xlimit[0]=53;
-    xlimit[1]=153;
-    xlimit[2]=253;
-    xlimit[3]=353;
-    xlimit[4]=453;
-    xlimit[5]=553;
-    xlimit[6]=653;
-    xlimit[7]=753;
-    xlimit[8]=853;
-    xlimit[9]=953;
+    xlimit[0]=56;
+    xlimit[1]=151;
+    xlimit[2]=243;
+    xlimit[3]=346;
+    xlimit[4]=437;
+    xlimit[5]=540;
+    xlimit[6]=636;
+    xlimit[7]=730;
+    xlimit[8]=815;
+    xlimit[9]=919;
 
-    ylimit[0]=100;
-    ylimit[1]=210;
-    ylimit[2]=320;
-    ylimit[3]=430;
-    ylimit[4]=540;
-    ylimit[5]=650;
+    ylimit[0]=98;
+    ylimit[1]=217;
+    ylimit[2]=328;
+    ylimit[3]=446;
+    ylimit[4]=567;
+    ylimit[5]=680;
 
 
 }
@@ -295,8 +295,8 @@ void playscene::mousePressEvent(QMouseEvent *event)
             {
 
                 if(visited(event->x(),event->y())){
-                    createplant(isPlanting);//此处和下一行目前可用于调整植物种类
-                    born(isPlanting);//方法是调整这两个函数的第一个参数（1-5）
+                    createplant(isPlanting+1);//此处和下一行目前可用于调整植物种类
+                    born(isPlanting+1);//方法是调整这两个函数的第一个参数（1-5）
                 }
 
                 setCursor(Qt::ArrowCursor);
@@ -349,7 +349,7 @@ void playscene::Born(int Number,int raw)
     ++ZombieNumber;
 }
 /***************************************************************************************************/
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
 //以下为植物部分
 
@@ -357,25 +357,25 @@ int playscene::xtrans()
 {
     int px;
     if(clix==1)px=70;
-    if(clix==2)px=225;
-    if(clix==3)px=280;
-    if(clix==4)px=335;
-    if(clix==5)px=390;
-    if(clix==6)px=445;
-    if(clix==7)px=500;
-    if(clix==8)px=555;
-    if(clix==9)px=610;
+    if(clix==2)px=165;
+    if(clix==3)px=265;
+    if(clix==4)px=360;
+    if(clix==5)px=455;
+    if(clix==6)px=555;
+    if(clix==7)px=650;
+    if(clix==8)px=745;
+    if(clix==9)px=845;
     return px;
 }
 
 int playscene::ytrans()
 {
     int py;
-    if(cliy==1)py=50;
-    if(cliy==2)py=230;
-    if(cliy==3)py=350;
-    if(cliy==4)py=470;
-    if(cliy==5)py=590;
+    if(cliy==1)py=120;
+    if(cliy==2)py=240;
+    if(cliy==3)py=360;
+    if(cliy==4)py=480;
+    if(cliy==5)py=600;
     return py;
 }
 
@@ -652,7 +652,7 @@ void playscene::born(int planttype)
 }
 
 
-=======
+//=======
 void playscene::Pwin()
 {
     WeCome = new QSound(":/zombie/winmusic.wav",this);
@@ -684,4 +684,4 @@ void playscene::Zwin()
 }
 
 /***************************************************************************************************/
->>>>>>> 56cdef394400ffb177aada4b3c280155e717f2da
+//>>>>>>> 56cdef394400ffb177aada4b3c280155e717f2da
