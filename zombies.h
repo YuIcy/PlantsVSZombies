@@ -19,6 +19,7 @@ public:
     int Hurt;
     int state;
     int Znumber;
+    int Mx = 10,My;
     bool IfEat = false;
     QMovie * movie = nullptr;
     QString WalkPath;
@@ -38,6 +39,7 @@ public:
     void Zstop();
     void Zstart();
     void ZChange();
+    int WMx(int x);
 
 signals:
 

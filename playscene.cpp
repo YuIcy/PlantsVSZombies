@@ -62,10 +62,28 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
                                             --ZombieNumber;
                                             --i;
                                         }
-                                        else{}
+                                        else{
+                                        }
                                     }
                                     else
                                     {
+                                        //判断僵尸身前是否有植物
+                                        if(zombie[i]->Mx==10)
+                                            return;
+                                        if(plthp[zombie[i]->Mx][zombie[i]->My]>0)
+                                        {
+                                            for(int k=1;k<6;++k)
+                                            {
+                                            }
+                                            --plthp[zombie[i]->Mx][zombie[i]->My];
+                                            if(!zombie[i]->IfEat)
+                                                zombie[i]->Eat(zombie[i]->EatPath);
+                                        }
+                                        else
+                                        {
+                                            if(zombie[i]->IfEat)
+                                                zombie[i]->Walk(zombie[i]->WalkPath);
+                                        }
                                         if(zombie[i]->x()<=-100)
                                             Zwin();
                                     }
@@ -197,6 +215,23 @@ playscene::playscene(QWidget *parent) : QWidget(parent)
                     }
                     else
                     {
+                        //判断僵尸身前是否有植物
+                        if(zombie[i]->Mx==10)
+                            return;
+                        if(plthp[zombie[i]->Mx][zombie[i]->My]>0)
+                        {
+                            for(int k=1;k<6;++k)
+                            {
+                            }
+                            --plthp[zombie[i]->Mx][zombie[i]->My];
+                            if(!zombie[i]->IfEat)
+                                zombie[i]->Eat(zombie[i]->EatPath);
+                        }
+                        else
+                        {
+                            if(zombie[i]->IfEat)
+                                zombie[i]->Walk(zombie[i]->WalkPath);
+                        }
                         if(zombie[i]->x()<=-100)
                             Zwin();
                     }
@@ -292,7 +327,7 @@ bool playscene::potatodetect(int x, int y){
     int i=0;
     while(i<ZombieNumber){
         if(raw_h[y-1]==zombie[i]->y()){
-            if(abs(x-(zombie[i]->x()+100))<=15){
+            if(abs(x-(zombie[i]->x()+50))<=15){
                 zombie[i]->GetHurt(5000,true);
                 return true;
             }
@@ -809,8 +844,8 @@ void playscene::Zwin()
             lose->show();
         });
     });
-    for(int i=0;i<ZombieNumber;++i)
-        delete zombie[i];
+//    for(int i=0;i<ZombieNumber;++i)
+//        delete zombie[i];
     timer->disconnect();
     Ctimer->disconnect();
 }
