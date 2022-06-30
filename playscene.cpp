@@ -844,8 +844,8 @@ void playscene::Zwin()
             lose->show();
         });
     });
-    for(int i=0;i<ZombieNumber;++i)
-        delete zombie[i];
+//    for(int i=0;i<ZombieNumber;++i)
+//        delete zombie[i];
     timer->disconnect();
     Ctimer->disconnect();
 }
